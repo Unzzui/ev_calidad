@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Diagrama Ishikawa - Hotel 4★</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet" />
+    <link rel="stylesheet" href="../css/main.css" />
+    <style>
+      .ishikawa-container {
+        margin: 40px 0;
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 12px;
+        overflow-x: auto;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      .diagram {
+        width: 1280px;
+        height: 700px;
+        position: relative;
+        margin: 0 auto;
+      }
+
+      /* Espina central */
+      .main-spine {
+        position: absolute;
+        top: 350px;
+        left: 100px;
+        width: 1000px;
+        height: 6px;
+        background: #4a6bdf;
+        z-index: 1;
+      }
+
+      /* Punta de flecha */
+      .arrow-head {
+        position: absolute;
+        top: 335px;
+        right: 150px;
+        width: 0;
+        height: 0;
+        border-left: 20px solid #4a6bdf;
+        border-top: 18px solid transparent;
+        border-bottom: 18px solid transparent;
+        z-index: 2;
+      }
+
+      /* Problema principal */
+      .problem {
+        position: absolute;
+        top: 320px;
+        right: 10px;
+        width: 150px;
+        padding: 15px;
+        background: #4a6bdf;
+        color: white;
+        text-align: center;
+        border-radius: 8px;
+        font-weight: bold;
+        border: 2px solid white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        z-index: 10;
+      }
+
+      /* Categorías */
+      .category {
+        position: absolute;
+        width: 120px;
+        padding: 10px;
+        text-align: center;
+        font-weight: bold;
+        color: white;
+        border-radius: 6px;
+        z-index: 5;
+      }
+
+      /* Líneas de espina */
+      .spine-line {
+        position: absolute;
+        background: #f06292;
+        height: 3px;
+        transform-origin: bottom left;
+        z-index: 2;
+      }
+
+      /* Líneas superiores */
+      .line-top {
+        transform: rotate(-45deg);
+      }
+
+      /* Líneas inferiores */
+      .line-bottom {
+        transform: rotate(45deg);
+      }
+
+      /* Posición de las categorías */
+      .cat-top {
+        top: 160px;
+        background: #f06292;
+        box-shadow: 0 4px 8px rgba(240, 98, 146, 0.3);
+      }
+
+      .cat-bottom {
+        top: 480px;
+        background: #f06292;
+        box-shadow: 0 4px 8px rgba(240, 98, 146, 0.3);
+      }
+
+      /* Posicionamiento horizontal */
+      .pos-1 {
+        left: 200px;
+      }
+      .pos-2 {
+        left: 500px;
+      }
+      .pos-3 {
+        left: 800px;
+      }
+
+      /* Subcausas */
+      .subcause {
+        position: absolute;
+        width: 130px;
+        padding: 8px 12px;
+        border-radius: 6px;
+        font-size: 12px;
+        background: white;
+        border: 1px solid #f06292;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        z-index: 3;
+      }
+
+      .critical {
+        background: #fff0f5;
+        border: 2px solid #ff4081;
+        font-weight: bold;
+        box-shadow: 0 2px 8px rgba(255, 64, 129, 0.2);
+      }
+
+      .subcause-line {
+        position: absolute;
+        background: #f798b6;
+        height: 2px;
+        z-index: 2;
+      }
+
+      /* Tabla de análisis */
+      .analysis-table {
+        margin: 40px 0;
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      .analysis-table table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      .analysis-table th {
+        background: #4a6bdf;
+        color: white;
+        padding: 15px;
+        text-align: left;
+        font-weight: 600;
+        font-size: 14px;
+      }
+
+      .analysis-table td {
+        padding: 12px 15px;
+        border-bottom: 1px solid #edf2f7;
+        vertical-align: top;
+        font-size: 14px;
+      }
+
+      .analysis-table tr:nth-child(even) {
+        background: #f8f9fa;
+      }
+
+      .category-name {
+        font-weight: 600;
+        color: #4a6bdf;
+      }
+
+      .critical-item {
+        font-weight: 600;
+        color: #ff4081;
+        background: #fff0f5;
+        padding: 2px 6px;
+        border-radius: 4px;
+      }
+
+      .relation-text {
+        font-size: 13px;
+        line-height: 1.5;
+        color: #555;
+        font-style: italic;
+      }
+
+      .legend {
+        margin-top: 20px;
+        padding: 15px;
+        background: #f8f9fa;
+        border-radius: 8px;
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+
+      .legend-item {
+        display: flex;
+        align-items: center;
+        font-size: 13px;
+      }
+
+      .legend-color {
+        width: 20px;
+        height: 20px;
+        margin-right: 8px;
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-container">
+      <div class="ficha-container">
+        <!-- Botón de regreso -->
+        <a href="../index.html" class="back-button">Volver a Herramientas</a>
+
+        <!-- Cabecera -->
+        <div class="header">
+          <div class="logo">4★</div>
+          <div class="title-area">
+            <h1 class="main-title">DIAGRAMA ISHIKAWA</h1>
+            <h2 class="subtitle">
+              ANÁLISIS DE CAUSAS - ERROR EN ASIGNACIÓN DE HABITACIONES
+            </h2>
+          </div>
+          <div class="metadata">
+            <p>ISHK-001</p>
+            <p>Rev 01 · 2025-06</p>
+          </div>
+        </div>
+
+        <!-- DIAGRAMA DE ISHIKAWA SIMPLIFICADO -->
+        <div class="ishikawa-container">
+          <div class="diagram">
+            <!-- Espina central -->
+            <div class="main-spine"></div>
+            <div class="arrow-head"></div>
+
+            <!-- Problema principal -->
+            <div class="problem">
+              🚫 ERROR EN ASIGNACIÓN<br />DE HABITACIONES
+            </div>
+
+            <!-- CATEGORÍAS SUPERIORES -->
+            <!-- PERSONAS -->
+            <div class="category cat-top pos-1">👥 Personas</div>
+            <div
+              class="spine-line line-top"
+              style="top: 350px; left: 200px; width: 240px"></div>
+
+            <!-- Subcausas Personas -->
+            <div class="subcause critical" style="top: 110px; left: 160px">
+              Inducción informal (acompañamiento)
+            </div>
+            <div
+              class="subcause-line"
+              style="
+                top: 130px;
+                left: 225px;
+                width: 60px;
+                transform: rotate(75deg);
+              "></div>
+
+            <div class="subcause" style="top: 180px; left: 240px">
+              Recepcionista sin tutor
+            </div>
+            <div
+              class="subcause-line"
+              style="
+                top: 200px;
+                left: 280px;
+                width: 60px;
+                transform: rotate(65deg);
+              "></div>
+
+            <div class="subcause" style="top: 230px; left: 320px">
+              Falta supervisión
+            </div>
+            <div
+              class="subcause-line"
+              style="
+                top: 250px;
+                left: 340px;
+                width: 60px;
+                transform: rotate(55deg);
+              "></div>
+
+            <!-- MÉTODOS -->
+            <div class="category cat-top pos-2">📋 Métodos</div>
+            <div
+              class="spine-line line-top"
+              style="top: 350px; left: 500px; width: 240px"></div>
+
+            <!-- Subcausas Métodos -->
+            <div class="subcause" style="top: 110px; left: 460px">
+              POE check-in inexistente
+            </div>
+            <div
+              class="subcause-line"
+              style="
+                top: 130px;
+                left: 525px;
+                width: 60px;
+                transform: rotate(75deg);
+              "></div>
+
+            <div class="subcause critical" style="top: 180px; left: 540px">
+              Sin checklist VIP / preferencias
+            </div>
+            <div
+              class="subcause-line"
+              style="
+                top: 200px;
+                left: 580px;
+                width: 60px;
+                transform: rotate(65deg);
+              "></div>
+
+            <div class="subcause" style="top: 230px; left: 620px">
+              Sin doble-chequeo
+            </div>
+            <div
+              class="subcause-line"
+              style="
+                top: 250px;
+                left: 640px;
+                width: 60px;
+                transform: rotate(55deg);
+              "></div>
+
+            <!-- MÁQUINAS -->
+            <div class="category cat-top pos-3">💻 Máquinas</div>
+            <div
+              class="spine-line line-top"
+              style="top: 350px; left: 800px; width: 240px"></div>
+
+            <!-- Subcausas Máquinas -->
+            <div class="subcause critical" style="top: 110px; left: 760px">
+              PMS sin alerta VIP
+            </div>
+            <div
+              class="subcause-line"
+              style="
+                top: 130px;
+                left: 825px;
+                width: 60px;
+                transform: rotate(75deg);
+              "></div>
+
+            <div class="subcause" style="top: 180px; left: 840px">
+              Interfaz confusa
+            </div>
+            <div
+              class="subcause-line"
+              style="
+                top: 200px;
+                left: 880px;
+                width: 60px;
+                transform: rotate(65deg);
+              "></div>
+
+            <div class="subcause" style="top: 230px; left: 920px">
+              Key encoder sin validación
+            </div>
+            <div
+              class="subcause-line"
+              style="
+                top: 250px;
+                left: 940px;
+                width: 60px;
+                transform: rotate(55deg);
+              "></div>
+
+            <!-- CATEGORÍAS INFERIORES -->
+            <!-- MATERIALES -->
+            <div class="category cat-bottom pos-1">🏷️ Materiales</div>
+            <div
+              class="spine-line line-bottom"
+              style="top: 350px; left: 200px; width: 240px"></div>
+
+            <!-- Subcausas Materiales -->
+            <div class="subcause" style="top: 480px; left: 160px">
+              Tarjetas sin código color
+            </div>
+            <div
+              class="subcause-line"
+              style="
+                top: 470px;
+                left: 225px;
+                width: 60px;
+                transform: rotate(-75deg);
+              "></div>
+
+            <div class="subcause critical" style="top: 540px; left: 240px">
+              Señalética confusa áreas fumador
+            </div>
+            <div
+              class="subcause-line"
+              style="
+                top: 530px;
+                left: 280px;
+                width: 60px;
+                transform: rotate(-65deg);
+              "></div>
+
+            <!-- MEDICIONES -->
+            <div class="category cat-bottom pos-2">📊 Mediciones</div>
+            <div
+              class="spine-line line-bottom"
+              style="top: 350px; left: 500px; width: 240px"></div>
+
+            <!-- Subcausas Mediciones -->
+            <div class="subcause critical" style="top: 480px; left: 460px">
+              No se registra KPI de errores
+            </div>
+            <div
+              class="subcause-line"
+              style="
+                top: 470px;
+                left: 525px;
+                width: 60px;
+                transform: rotate(-75deg);
+              "></div>
+
+            <div class="subcause" style="top: 540px; left: 540px">
+              Reclamos solo contados
+            </div>
+            <div
+              class="subcause-line"
+              style="
+                top: 530px;
+                left: 580px;
+                width: 60px;
+                transform: rotate(-65deg);
+              "></div>
+
+            <div class="subcause" style="top: 590px; left: 620px">
+              Sin seguimiento a VIPs
+            </div>
+            <div
+              class="subcause-line"
+              style="
+                top: 580px;
+                left: 640px;
+                width: 60px;
+                transform: rotate(-55deg);
+              "></div>
+
+            <!-- ENTORNO -->
+            <div class="category cat-bottom pos-3">🌍 Entorno</div>
+            <div
+              class="spine-line line-bottom"
+              style="top: 350px; left: 800px; width: 240px"></div>
+
+            <!-- Subcausas Entorno -->
+            <div class="subcause" style="top: 480px; left: 760px">
+              Hotel 100% ocupación
+            </div>
+            <div
+              class="subcause-line"
+              style="
+                top: 470px;
+                left: 825px;
+                width: 60px;
+                transform: rotate(-75deg);
+              "></div>
+
+            <div class="subcause critical" style="top: 540px; left: 840px">
+              Política overbooking no definida
+            </div>
+            <div
+              class="subcause-line"
+              style="
+                top: 530px;
+                left: 880px;
+                width: 60px;
+                transform: rotate(-65deg);
+              "></div>
+
+            <div class="subcause" style="top: 590px; left: 920px">
+              Cultura reactiva
+            </div>
+            <div
+              class="subcause-line"
+              style="
+                top: 580px;
+                left: 940px;
+                width: 60px;
+                transform: rotate(-55deg);
+              "></div>
+          </div>
+        </div>
+
+        <!-- Tabla de Análisis -->
+        <div class="analysis-table">
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 15%">🎯 Categoría</th>
+                <th style="width: 45%">🔍 Causas Identificadas</th>
+                <th style="width: 40%">🔗 Impacto en el Problema</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="category-name">👥 Personas</td>
+                <td>
+                  • <span class="critical-item">Inducción informal</span> (solo
+                  "acompañamiento de un par")<br />
+                  • Recepcionista en su primer día sin tutor<br />
+                  • Falta de supervisión en turno
+                </td>
+                <td class="relation-text">
+                  La falta de un programa formal provoca que el personal nuevo
+                  ignore requisitos históricos de clientes frecuentes y sus
+                  preferencias.
+                </td>
+              </tr>
+              <tr>
+                <td class="category-name">📋 Métodos</td>
+                <td>
+                  • POE de reserva/check-in inexistente<br />
+                  •
+                  <span class="critical-item"
+                    >Sin checklist VIP / preferencias</span
+                  >
+                  (no fumador)<br />
+                  • Ausencia de doble-chequeo antes de entregar llave
+                </td>
+                <td class="relation-text">
+                  Sin un doble-chequeo ni señal visual el sistema permite
+                  confirmar una habitación inadecuada sin advertir del error.
+                </td>
+              </tr>
+              <tr>
+                <td class="category-name">💻 Máquinas</td>
+                <td>
+                  •
+                  <span class="critical-item"
+                    >PMS sin alerta de huésped VIP</span
+                  ><br />
+                  • Interfaz confusa para seleccionar tipo de habitación<br />
+                  • Key encoder permite codificar tarjeta sin validación
+                </td>
+                <td class="relation-text">
+                  Los sistemas no proporcionan alertas automáticas para
+                  preferencias especiales de huéspedes VIP y facilitan la
+                  confusión.
+                </td>
+              </tr>
+              <tr>
+                <td class="category-name">🏷️ Materiales</td>
+                <td>
+                  • Tarjetas llave genéricas sin código de color<br />
+                  •
+                  <span class="critical-item">Señalética poco clara</span> entre
+                  alas fumador/no fumador
+                </td>
+                <td class="relation-text">
+                  La falta de diferenciación visual facilita errores en la
+                  asignación de habitaciones y aumenta confusión durante el
+                  check-in.
+                </td>
+              </tr>
+              <tr>
+                <td class="category-name">📊 Mediciones</td>
+                <td>
+                  •
+                  <span class="critical-item"
+                    >No se registra KPI de errores</span
+                  ><br />
+                  • Reclamos solo se cuentan, no se analizan<br />
+                  • Sin seguimiento a satisfacción VIP
+                </td>
+                <td class="relation-text">
+                  Al no medir la tasa de fallos, la dirección desconoce la
+                  magnitud del problema y no prioriza la solución.
+                </td>
+              </tr>
+              <tr>
+                <td class="category-name">🌍 Entorno</td>
+                <td>
+                  • Hotel al 100% de ocupación → imposible reubicar<br />
+                  •
+                  <span class="critical-item"
+                    >Política de overbooking/fumador no definida</span
+                  ><br />
+                  • Cultura reactiva (no hay protocolo de solución)
+                </td>
+                <td class="relation-text">
+                  El hotel no prevé una reserva de habitaciones "buffer" ni
+                  protocolo de upgrade externo para compensar errores.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Leyenda -->
+        <div class="legend">
+          <h3 style="width: 100%; margin-top: 0; color: #4a6bdf">
+            📋 Leyenda:
+          </h3>
+          <div class="legend-item">
+            <div class="legend-color" style="background: #4a6bdf"></div>
+            <span>Espina central (problema principal)</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background: #f06292"></div>
+            <span>Categorías principales</span>
+          </div>
+          <div class="legend-item">
+            <div
+              class="legend-color"
+              style="background: white; border: 1px solid #f06292"></div>
+            <span>Causas secundarias</span>
+          </div>
+          <div class="legend-item">
+            <div
+              class="legend-color"
+              style="background: #fff0f5; border: 2px solid #ff4081"></div>
+            <span><strong>Causas críticas</strong></span>
+          </div>
+        </div>
+
+        <!-- Pie de página -->
+        <div class="footer">
+          <div class="footer-left">🔍 Diagrama de Causa-Efecto (Ishikawa)</div>
+          <div class="footer-right">
+            HOTEL 4★ | Departamento de Calidad | 2025
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

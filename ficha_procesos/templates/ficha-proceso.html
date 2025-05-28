@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ficha de Proceso - Hotel 4★</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet" />
+    <link rel="stylesheet" href="../css/main.css" />
+
+    <style>
+      :root {
+        --color-primary: #004daa;
+        --color-accent: #ff8c00;
+        --color-border: #dddddd;
+        --color-text: #333333;
+        --color-note: #555555;
+        --color-bg-light: #f8f9fc;
+        --color-trend-up: #1cc88a;
+        --color-trend-same: #f6c23e;
+        --box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        --border-radius: 6px;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+        color: var(--color-text);
+        line-height: 1.6;
+        background-color: #f5f5f5;
+        padding: 0;
+        margin: 0;
+      }
+
+      /* Contenedor principal */
+      .page-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 40px 20px;
+      }
+
+      .ficha-container {
+        background-color: white;
+        box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        padding: 40px;
+        margin-bottom: 30px;
+      }
+
+      /* Header */
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        border-bottom: 1px solid var(--color-border);
+        padding-bottom: 20px;
+      }
+
+      .logo {
+        background-color: var(--color-primary);
+        color: white;
+        width: 60px;
+        height: 60px;
+        border-radius: 8px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        font-size: 24px;
+        box-shadow: var(--box-shadow);
+      }
+
+      .title-area {
+        text-align: center;
+        flex-grow: 1;
+      }
+
+      .main-title {
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--color-primary);
+        margin: 0;
+        letter-spacing: -0.5px;
+      }
+
+      .subtitle {
+        font-size: 20px;
+        font-weight: 600;
+        margin-top: 8px;
+        color: #444;
+      }
+
+      .metadata {
+        text-align: right;
+        font-size: 12px;
+        line-height: 1.7;
+      }
+
+      /* Cajas de contenido */
+      .row {
+        display: flex;
+        margin-bottom: 25px;
+        gap: 25px;
+      }
+
+      @media (max-width: 768px) {
+        .row {
+          flex-direction: column;
+        }
+      }
+
+      .box {
+        border: 1px solid var(--color-border);
+        border-radius: var(--border-radius);
+        overflow: hidden;
+        flex: 1;
+        box-shadow: var(--box-shadow);
+        display: flex;
+        flex-direction: column;
+      }
+
+      .box-header {
+        background-color: var(--color-primary);
+        color: white;
+        padding: 12px 15px;
+        font-weight: 600;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .box-content {
+        padding: 18px;
+        flex-grow: 1;
+        font-size: 14px;
+      }
+
+      .box-footer {
+        padding: 10px 15px;
+        background-color: var(--color-bg-light);
+        border-top: 1px solid var(--color-border);
+        font-style: italic;
+        font-size: 11px;
+        color: var(--color-note);
+      }
+
+      /* Listas */
+      ul,
+      ol {
+        padding-left: 18px;
+        margin: 10px 0;
+      }
+
+      ul li,
+      ol li {
+        margin-bottom: 10px;
+        line-height: 1.5;
+      }
+
+      ul {
+        list-style-type: none;
+      }
+
+      ul li {
+        position: relative;
+      }
+
+      ul li::before {
+        content: "•";
+        position: absolute;
+        left: -15px;
+        color: var(--color-primary);
+        font-weight: bold;
+      }
+
+      /* Tablas */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 5px 0;
+      }
+
+      table th {
+        text-align: left;
+        border-bottom: 1px solid var(--color-border);
+        padding: 10px 5px;
+        font-weight: 600;
+        font-size: 13px;
+      }
+
+      table td {
+        padding: 10px 5px;
+        border-bottom: 1px solid var(--color-bg-light);
+        font-size: 13px;
+      }
+
+      .tag {
+        background-color: var(--color-accent);
+        color: white;
+        border-radius: 12px;
+        padding: 2px 8px;
+        font-size: 9px;
+        margin-left: 6px;
+        font-weight: 500;
+        display: inline-block;
+        vertical-align: middle;
+      }
+
+      .trend-up {
+        color: var(--color-trend-up);
+        font-weight: bold;
+      }
+      .trend-down {
+        color: var(--color-trend-up);
+        font-weight: bold;
+      }
+      .trend-same {
+        color: var(--color-trend-same);
+        font-weight: bold;
+      }
+
+      /* Matriz */
+      .impact {
+        display: inline-block;
+        padding: 4px 8px;
+        border-radius: 4px;
+        text-align: center;
+        font-weight: 600;
+        font-size: 12px;
+        width: 70px;
+      }
+
+      .impact-high {
+        background-color: rgba(246, 194, 62, 0.3);
+      }
+      .impact-critical {
+        background-color: rgba(231, 74, 59, 0.3);
+      }
+      .impact-medium {
+        background-color: rgba(54, 185, 204, 0.3);
+      }
+
+      /* Datasets */
+      .dataset {
+        background-color: var(--color-bg-light);
+        border: 1px solid var(--color-border);
+        padding: 12px 15px;
+        margin-bottom: 12px;
+        border-radius: var(--border-radius);
+      }
+
+      .dataset-title {
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .dataset-vars {
+        font-style: italic;
+        font-size: 11px;
+        margin-top: 5px;
+        margin-left: 20px;
+        color: var(--color-note);
+      }
+
+      /* Actividades */
+      .warning-activity {
+        position: relative;
+        padding-right: 25px;
+      }
+
+      .warning-icon {
+        color: var(--color-accent);
+        font-weight: bold;
+        position: absolute;
+        right: 0;
+      }
+
+      /* Footer */
+      .divider {
+        height: 1px;
+        background-color: var(--color-border);
+        margin: 25px 0 15px;
+      }
+
+      .footer {
+        display: flex;
+        justify-content: space-between;
+        padding: 15px 0;
+        margin-top: 30px;
+      }
+
+      .footer-left {
+        font-weight: 600;
+        color: var(--color-primary);
+        font-size: 12px;
+      }
+
+      .footer-right {
+        font-style: italic;
+        color: #999;
+        font-size: 12px;
+      }
+
+      /* Notas */
+      .notes {
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid var(--color-border);
+      }
+
+      .notes h4 {
+        margin-bottom: 15px;
+        font-size: 16px;
+        color: var(--color-primary);
+      }
+
+      .notes-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 15px;
+      }
+
+      @media (max-width: 768px) {
+        .notes-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .note {
+        font-size: 12px;
+        color: var(--color-note);
+        line-height: 1.4;
+      }
+
+      .charts-container {
+        display: flex;
+        gap: 25px;
+        margin-bottom: 25px;
+      }
+
+      @media (max-width: 768px) {
+        .charts-container {
+          flex-direction: column;
+        }
+      }
+
+      .chart-box {
+        flex: 1;
+        background-color: white;
+        border-radius: var(--border-radius);
+        border: 1px solid var(--color-border);
+        box-shadow: var(--box-shadow);
+        overflow: hidden;
+        /* Altura fija más compacta */
+        height: 300px;
+      }
+
+      .chart-title {
+        padding: 12px 15px;
+        background-color: var(--color-primary);
+        color: white;
+        font-weight: 600;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .chart-container {
+        position: relative;
+        height: 230px; /* Altura calculada: 300px altura total - ~70px del título */
+        padding: 10px 15px;
+      }
+
+      canvas {
+        max-width: 100%;
+      }
+      /* Responsividad general */
+      @media (max-width: 1000px) {
+        .ficha-container {
+          padding: 30px;
+        }
+      }
+
+      @media (max-width: 600px) {
+        .header {
+          flex-direction: column;
+          align-items: center;
+          gap: 15px;
+          text-align: center;
+        }
+
+        .metadata {
+          text-align: center;
+          margin-top: 10px;
+        }
+
+        .ficha-container {
+          padding: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-container">
+      <div class="ficha-container">
+        <!-- Cabecera -->
+        <a href="../index.html" class="back-button">Volver a Herramientas</a>
+
+        <div class="header">
+          <div class="logo">4★</div>
+          <div class="title-area">
+            <h1 class="main-title">FICHA DE PROCESO</h1>
+            <h2 class="subtitle">GESTIÓN DE RESERVAS Y CHECK-IN/OUT</h2>
+          </div>
+          <div class="metadata">
+            <p>PRO-OPS-H001</p>
+            <p>Rev 02 · 2025-06-01</p>
+            <p>Aprobó: Gerencia Operaciones</p>
+          </div>
+        </div>
+
+        <!-- Primera fila: Propietario, Alcance, Objetivo -->
+        <div class="row">
+          <!-- Propietario -->
+          <div class="box">
+            <div class="box-header">👤 PROPIETARIO</div>
+            <div class="box-content">Jefe de Recepción</div>
+            <div class="box-footer">
+              📝 ¹ Área responsable de 12 reclamos por demoras
+            </div>
+          </div>
+
+          <!-- Alcance -->
+          <div class="box">
+            <div class="box-header">🔄 ALCANCE</div>
+            <div class="box-content">
+              Desde la recepción de la reserva (web, OTA, teléfono) hasta el
+              check-out y emisión de factura
+            </div>
+            <div class="box-footer">
+              📝 ² Cubre todo el ciclo frente al huésped
+            </div>
+          </div>
+
+          <!-- Objetivo -->
+          <div class="box">
+            <div class="box-header">🎯 OBJETIVO</div>
+            <div class="box-content">
+              Completar check-in en ≤ 5 min (promedio semanal) y sin errores de
+              asignación (> 99%). Completar check-out en ≤ 3 min.
+            </div>
+            <div class="box-footer">
+              📝 ³ Ataca demoras en registro y error de habitación
+            </div>
+          </div>
+        </div>
+
+        <!-- Segunda fila: Entradas, Actividades, Salidas -->
+        <div class="row">
+          <!-- Entradas -->
+          <div class="box">
+            <div class="box-header">📥 ENTRADAS</div>
+            <div class="box-content">
+              <ul>
+                <li>Reserva confirmada</li>
+                <li>Historial huésped</li>
+                <li>Identificación</li>
+                <li>Medio de pago</li>
+              </ul>
+            </div>
+            <div class="box-footer">
+              📝 ⁴ Datos que Elena gestionó incorrectamente
+            </div>
+          </div>
+
+          <!-- Actividades -->
+          <div class="box">
+            <div class="box-header">🔄 ACTIVIDADES CLAVE</div>
+            <div class="box-content">
+              <ol>
+                <li>Verificar reserva en PMS (30s)</li>
+                <li class="warning-activity">
+                  Confirmar preferencias (fumador, VIP) (45s)
+                  <span class="warning-icon">⚠️</span>
+                </li>
+                <li>Codificar llave y activar perfil (60s)</li>
+                <li>Explicar servicios/hora desayuno (90s)</li>
+                <li>Registrar firma y entregar llave (45s)</li>
+              </ol>
+            </div>
+            <div class="box-footer">
+              📝 ⁵ Actividad 2 falló con la Sra. Farías
+            </div>
+          </div>
+
+          <!-- Salidas -->
+          <div class="box">
+            <div class="box-header">📤 SALIDAS</div>
+            <div class="box-content">
+              <ul>
+                <li>Habitación asignada</li>
+                <li>Tarjeta llave</li>
+                <li>Cargo registrado en PMS</li>
+                <li>Encuesta de satisfacción</li>
+              </ul>
+            </div>
+            <div class="box-footer">
+              📝 ⁶ Base para KPI NPS y tiempo proceso
+            </div>
+          </div>
+        </div>
+
+        <!-- Tercera fila: Indicadores -->
+        <div class="row">
+          <div class="box">
+            <div class="box-header">📊 INDICADORES</div>
+            <div class="box-content">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Indicador</th>
+                    <th>Meta</th>
+                    <th>Actual</th>
+                    <th>Tendencia</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Tiempo medio check-in</td>
+                    <td>≤ 5 min</td>
+                    <td>5.2 min</td>
+                    <td class="trend-up">↑</td>
+                  </tr>
+                  <tr>
+                    <td>Tasa errores asignación</td>
+                    <td>≤ 1%</td>
+                    <td>0.8%</td>
+                    <td class="trend-down">↓</td>
+                  </tr>
+                  <tr>
+                    <td>% late check-out justif.</td>
+                    <td>≥ 90%</td>
+                    <td>75%</td>
+                    <td class="trend-same">→</td>
+                  </tr>
+                  <tr>
+                    <td>NPS check-in/out <span class="tag">nuevo</span></td>
+                    <td>≥ 8.5</td>
+                    <td>7.9</td>
+                    <td class="trend-up">↑</td>
+                  </tr>
+                  <tr>
+                    <td>% facturas < 3 min <span class="tag">nuevo</span></td>
+                    <td>≥ 95%</td>
+                    <td>88%</td>
+                    <td class="trend-same">→</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="box-footer">
+              📝 ⁷ KPIs NPS y % facturas rápidas incorporados en esta revisión
+            </div>
+          </div>
+        </div>
+
+        <!-- Cuarta fila: Matriz Riesgos y Controles -->
+        <div class="row">
+          <div class="box">
+            <div class="box-header">⚠️ MATRIZ DE RIESGOS Y CONTROLES</div>
+            <div class="box-content">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Riesgo</th>
+                    <th>Impacto</th>
+                    <th>Control mitigador</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Sobreventa</td>
+                    <td><span class="impact impact-high">Alto</span></td>
+                    <td>Daily briefing de ocupación</td>
+                  </tr>
+                  <tr>
+                    <td>Fallo PMS</td>
+                    <td><span class="impact impact-critical">Crítico</span></td>
+                    <td>Procedimiento manual de respaldo</td>
+                  </tr>
+                  <tr>
+                    <td>Documento ID inválido</td>
+                    <td><span class="impact impact-medium">Medio</span></td>
+                    <td>Doble chequeo y validación externa</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="box-footer">
+              📝 ⁸ Identificados como causas raíz en el diagrama Ishikawa
+            </div>
+          </div>
+        </div>
+
+        <!-- Gráficos -->
+        <div class="charts-container">
+          <div class="chart-box">
+            <div class="chart-title">📊 TIEMPO MEDIO DE CHECK-IN POR TURNO</div>
+            <div class="chart-container">
+              <canvas id="chart1"></canvas>
+            </div>
+          </div>
+          <div class="chart-box">
+            <div class="chart-title">📊 TASA DE ASIGNACIONES ERRÓNEAS</div>
+            <div class="chart-container">
+              <canvas id="chart2"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quinta fila: Documentos -->
+        <div class="row">
+          <div class="box">
+            <div class="box-header">🗂️ DOCUMENTOS RELACIONADOS</div>
+            <div class="box-content">
+              <ul>
+                <li>
+                  POE #01-Recepción: Procedimiento operativo estándar para
+                  check-in/out
+                </li>
+                <li>
+                  Check-list VIP: Verificación especial para huéspedes
+                  recurrentes o programa VIP
+                </li>
+                <li>
+                  Ficha Registro: Formato legal de registro de huéspedes con
+                  requisitos de identificación
+                </li>
+              </ul>
+            </div>
+            <div class="box-footer">
+              📝 ⁹ Documentos a crear/actualizar en fase H3 del proyecto Gantt
+            </div>
+          </div>
+        </div>
+
+        <!-- Sexta fila: Panel de datos -->
+        <div class="row">
+          <div class="box">
+            <div class="box-header">📱 PANEL DE DATOS SUGERIDOS</div>
+            <div class="box-content">
+              <div class="dataset">
+                <div class="dataset-title">📊 Check-in por turno</div>
+                <div class="dataset-vars">
+                  Variables: fecha, turno, min_checkin
+                </div>
+              </div>
+              <div class="dataset">
+                <div class="dataset-title">🔔 Room-service</div>
+                <div class="dataset-vars">
+                  Variables: hora, tiempo_entrega_min
+                </div>
+              </div>
+              <div class="dataset">
+                <div class="dataset-title">💬 Reclamos</div>
+                <div class="dataset-vars">
+                  Variables: ticket_id, tiempo_resolucion_min, estado
+                </div>
+              </div>
+              <div class="dataset">
+                <div class="dataset-title">⚠️ Errores</div>
+                <div class="dataset-vars">
+                  Variables: día, total_checkin, errores_asignacion
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Notas -->
+        <div class="notes">
+          <h4>Notas:</h4>
+          <div class="notes-grid">
+            <div class="note">
+              ¹ Área que recibió 12 reclamos por demoras y cometió el incidente
+              con la Sra. Farías.
+            </div>
+            <div class="note">
+              ² Cubre todo el ciclo de interacción frente al huésped.
+            </div>
+            <div class="note">
+              ³ Atacar directamente problemas de 'demoras en registro' y 'error
+              de habitación'.
+            </div>
+            <div class="note">
+              ⁴ Datos que Elena gestionó incorrectamente en el incidente.
+            </div>
+            <div class="note">
+              ⁵ El punto 2 falló específicamente con la Sra. Farías (no
+              verificación de preferencias).
+            </div>
+            <div class="note">
+              ⁶ Base para medición de KPIs críticos de satisfacción y tiempo de
+              proceso.
+            </div>
+            <div class="note">
+              ⁷ KPIs inexistentes en la versión anterior del sistema.
+            </div>
+            <div class="note">
+              ⁸ Causas raíz identificadas en el análisis Ishikawa.
+            </div>
+            <div class="note">
+              ⁹ Documentos a crear en la fase H3 del proyecto según cronograma
+              Gantt.
+            </div>
+          </div>
+        </div>
+
+        <!-- Pie de página -->
+        <div class="footer">
+          <div class="footer-left">
+            Ficha de Proceso: Gestión de Reservas y Check-in/out
+          </div>
+          <div class="footer-right">
+            HOTEL 4★ | Sistema de Gestión de Calidad | Rev.02 - Mayo 2025
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      // Configurar gráfico 1: Tiempo medio de check-in por turno
+      const ctx1 = document.getElementById("chart1").getContext("2d");
+      const chart1 = new Chart(ctx1, {
+        type: "bar",
+        data: {
+          labels: ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"],
+          datasets: [
+            {
+              label: "Mañana",
+              data: [4.8, 5.2, 4.5, 4.9, 5.1, 6.2, 5.8],
+              backgroundColor: "#004DAA",
+            },
+            {
+              label: "Tarde",
+              data: [5.3, 5.5, 4.7, 5.0, 5.3, 7.1, 6.3],
+              backgroundColor: "#347DC6",
+            },
+            {
+              label: "Noche",
+              data: [3.5, 3.7, 3.8, 3.9, 4.1, 4.2, 4.0],
+              backgroundColor: "#7EB3FF",
+            },
+          ],
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 8,
+              title: {
+                display: true,
+                text: "Minutos",
+              },
+            },
+            x: {
+              title: {
+                display: true,
+                text: "Día de la semana",
+              },
+            },
+          },
+          plugins: {
+            legend: {
+              position: "bottom",
+            },
+            annotation: {
+              annotations: {
+                line1: {
+                  type: "line",
+                  yMin: 5,
+                  yMax: 5,
+                  borderColor: "#FF8C00",
+                  borderWidth: 2,
+                  borderDash: [6, 3],
+                  label: {
+                    content: "Meta: 5 min",
+                    position: "end",
+                    backgroundColor: "#FF8C00",
+                    color: "white",
+                    enabled: true,
+                  },
+                },
+              },
+            },
+          },
+          responsive: true,
+          maintainAspectRatio: false,
+        },
+      });
+
+      // Configurar gráfico 2: Tasa de asignaciones erróneas
+      const ctx2 = document.getElementById("chart2").getContext("2d");
+      const chart2 = new Chart(ctx2, {
+        type: "bar",
+        data: {
+          labels: ["Semana 1", "Semana 2", "Semana 3", "Semana 4"],
+          datasets: [
+            {
+              label: "Check-ins totales",
+              data: [320, 410, 380, 450],
+              backgroundColor: "#004DAA",
+              order: 2,
+              yAxisID: "y",
+            },
+            {
+              label: "% Error",
+              data: [1.6, 1.5, 0.8, 0.4],
+              type: "line",
+              borderColor: "#FF8C00",
+              backgroundColor: "#FF8C00",
+              borderWidth: 2,
+              pointRadius: 6,
+              pointHoverRadius: 8,
+              order: 1,
+              yAxisID: "y1",
+            },
+          ],
+        },
+        options: {
+          scales: {
+            y: {
+              type: "linear",
+              display: true,
+              position: "left",
+              beginAtZero: true,
+              title: {
+                display: true,
+                text: "Total Check-ins",
+              },
+              grid: {
+                drawOnChartArea: false,
+              },
+            },
+            y1: {
+              type: "linear",
+              display: true,
+              position: "right",
+              beginAtZero: true,
+              max: 3,
+              title: {
+                display: true,
+                text: "% Error",
+              },
+              grid: {
+                drawOnChartArea: false,
+              },
+            },
+          },
+          plugins: {
+            legend: {
+              position: "bottom",
+            },
+            annotation: {
+              annotations: {
+                line1: {
+                  type: "line",
+                  yMin: 1,
+                  yMax: 1,
+                  yScaleID: "y1",
+                  borderColor: "#FF8C00",
+                  borderWidth: 2,
+                  borderDash: [6, 3],
+                  label: {
+                    content: "Meta: ≤1%",
+                    position: "end",
+                    backgroundColor: "#FF8C00",
+                    color: "white",
+                    enabled: true,
+                  },
+                },
+              },
+            },
+          },
+          responsive: true,
+          maintainAspectRatio: false,
+        },
+      });
+    </script>
+  </body>
+</html>

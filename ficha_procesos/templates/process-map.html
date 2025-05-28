@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mapa de Procesos - Hotel 4★</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet" />
+    <link rel="stylesheet" href="../css/main.css" />
+    <style>
+      /* Estilos específicos para mapa de procesos */
+      .process-map-container {
+        width: 100%;
+        padding: 20px;
+        position: relative;
+      }
+
+      .process-flow {
+        position: relative;
+        height: 600px;
+        border: 1px solid var(--color-border);
+        border-radius: var(--border-radius);
+        background: white;
+        margin: 20px 0;
+      }
+
+      .process-box {
+        position: absolute;
+        border-radius: var(--border-radius);
+        padding: 15px;
+        text-align: center;
+        box-shadow: var(--box-shadow);
+        transition: transform 0.2s;
+      }
+
+      .process-box:hover {
+        transform: scale(1.03);
+      }
+
+      /* Tipos de procesos */
+      .strategic {
+        background-color: rgba(78, 115, 223, 0.8);
+        color: white;
+      }
+
+      .key {
+        background-color: rgba(28, 200, 138, 0.8);
+        color: white;
+      }
+
+      .support {
+        background-color: rgba(246, 194, 62, 0.8);
+        color: white;
+      }
+
+      .process-title {
+        font-weight: 600;
+        font-size: 14px;
+        margin-bottom: 8px;
+      }
+
+      .process-description {
+        font-size: 12px;
+      }
+
+      .process-arrow {
+        position: absolute;
+        border-top: 2px dashed #ccc;
+      }
+
+      .process-arrow:after {
+        content: "";
+        position: absolute;
+        right: -10px;
+        top: -6px;
+        border-left: 10px solid #ccc;
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+      }
+
+      /* Flechas de entrada/salida */
+      .input-arrow,
+      .output-arrow {
+        position: absolute;
+      }
+
+      .input-output-text {
+        position: absolute;
+        font-size: 12px;
+        color: var(--color-text);
+        text-align: center;
+        width: 120px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-container">
+      <div class="ficha-container">
+        <!-- Botón de regreso -->
+        <a href="../index.html" class="back-button">Volver a Herramientas</a>
+
+        <!-- Cabecera -->
+        <div class="header">
+          <div class="logo">4★</div>
+          <div class="title-area">
+            <h1 class="main-title">MAPA DE PROCESOS</h1>
+            <h2 class="subtitle">HOTEL 4 ESTRELLAS</h2>
+          </div>
+          <div class="metadata">
+            <p>MAP-PROC-001</p>
+            <p>Rev 01 · 2025-06</p>
+          </div>
+        </div>
+
+        <!-- Contenedor del mapa de procesos -->
+        <div class="process-map-container">
+          <div class="process-flow" id="process-map">
+            <!-- Se generará dinámicamente con JavaScript -->
+          </div>
+        </div>
+
+        <!-- Leyenda -->
+        <div class="legend">
+          <h3>Leyenda</h3>
+          <div style="display: flex; gap: 20px; margin-top: 10px">
+            <div style="display: flex; align-items: center">
+              <div
+                style="
+                  width: 20px;
+                  height: 20px;
+                  background-color: rgba(78, 115, 223, 0.8);
+                  margin-right: 5px;
+                "></div>
+              <span>Procesos Estratégicos</span>
+            </div>
+            <div style="display: flex; align-items: center">
+              <div
+                style="
+                  width: 20px;
+                  height: 20px;
+                  background-color: rgba(28, 200, 138, 0.8);
+                  margin-right: 5px;
+                "></div>
+              <span>Procesos Clave</span>
+            </div>
+            <div style="display: flex; align-items: center">
+              <div
+                style="
+                  width: 20px;
+                  height: 20px;
+                  background-color: rgba(246, 194, 62, 0.8);
+                  margin-right: 5px;
+                "></div>
+              <span>Procesos de Soporte</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pie de página -->
+        <div class="footer">
+          <div class="footer-left">Mapa de Procesos</div>
+          <div class="footer-right">
+            HOTEL 4★ | Departamento de Calidad | 2025
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const mapContainer = document.getElementById("process-map");
+
+        // Datos de los procesos
+        const processes = [
+          // Procesos estratégicos
+          {
+            id: "strategic-1",
+            type: "strategic",
+            title: "Planificación y presupuesto anual",
+            description: "Fija objetivos de ocupación y RevPAR",
+            x: 10,
+            y: 50,
+            width: 220,
+            height: 80,
+          },
+          {
+            id: "strategic-2",
+            type: "strategic",
+            title: "Marketing y ventas",
+            description:
+              "Posiciona el hotel en turismo vacacional y de negocios",
+            x: 240,
+            y: 50,
+            width: 220,
+            height: 80,
+          },
+          {
+            id: "strategic-3",
+            type: "strategic",
+            title: "Gestión de la calidad",
+            description: "Gobierna el SGC, auditorías y mejora continua",
+            x: 470,
+            y: 50,
+            width: 220,
+            height: 80,
+          },
+
+          // Procesos clave
+          {
+            id: "key-1",
+            type: "key",
+            title: "Gestión de reservas y check-in/out",
+            description: "Recepción y registro de huéspedes",
+            x: 10,
+            y: 200,
+            width: 160,
+            height: 100,
+          },
+          {
+            id: "key-2",
+            type: "key",
+            title: "Room service 24h",
+            description: "Atención y servicio a habitaciones",
+            x: 180,
+            y: 200,
+            width: 160,
+            height: 100,
+          },
+          {
+            id: "key-3",
+            type: "key",
+            title: "Housekeeping & mantenimiento",
+            description: "Limpieza y mantenimiento preventivo",
+            x: 350,
+            y: 200,
+            width: 160,
+            height: 100,
+          },
+          {
+            id: "key-4",
+            type: "key",
+            title: "Gestión de reclamos",
+            description: "Atención a quejas y fidelización",
+            x: 520,
+            y: 200,
+            width: 160,
+            height: 100,
+          },
+
+          // Procesos de soporte
+          {
+            id: "support-1",
+            type: "support",
+            title: "Recursos Humanos",
+            description: "Inducción, turnos, evaluación",
+            x: 60,
+            y: 370,
+            width: 200,
+            height: 80,
+          },
+          {
+            id: "support-2",
+            type: "support",
+            title: "Finanzas & Compras",
+            description: "Costeo, pagos a proveedores",
+            x: 270,
+            y: 370,
+            width: 200,
+            height: 80,
+          },
+          {
+            id: "support-3",
+            type: "support",
+            title: "Tecnologías de la Información",
+            description: "PMS, POS, Wi-Fi",
+            x: 480,
+            y: 370,
+            width: 200,
+            height: 80,
+          },
+        ];
+
+        // Renderizar los procesos
+        processes.forEach((process) => {
+          const box = document.createElement("div");
+          box.id = process.id;
+          box.className = `process-box ${process.type}`;
+          box.style.left = `${process.x}px`;
+          box.style.top = `${process.y}px`;
+          box.style.width = `${process.width}px`;
+          box.style.height = `${process.height}px`;
+          box.innerHTML = `
+                    <div class="process-title">${process.title}</div>
+                    <div class="process-description">${process.description}</div>
+                `;
+          mapContainer.appendChild(box);
+        });
+
+        // Añadir flechas y textos de entrada/salida
+        const inputArrow = document.createElement("div");
+        inputArrow.className = "input-arrow";
+        inputArrow.style.position = "absolute";
+        inputArrow.style.left = "0";
+        inputArrow.style.top = "250px";
+        inputArrow.style.width = "0";
+        inputArrow.style.height = "0";
+        inputArrow.style.borderTop = "15px solid transparent";
+        inputArrow.style.borderBottom = "15px solid transparent";
+        inputArrow.style.borderLeft = "15px solid #333";
+        mapContainer.appendChild(inputArrow);
+
+        const inputText = document.createElement("div");
+        inputText.className = "input-output-text";
+        inputText.style.left = "-60px";
+        inputText.style.top = "210px";
+        inputText.innerHTML = "Necesidades y expectativas del cliente";
+        mapContainer.appendChild(inputText);
+
+        const outputArrow = document.createElement("div");
+        outputArrow.className = "output-arrow";
+        outputArrow.style.position = "absolute";
+        outputArrow.style.right = "0";
+        outputArrow.style.top = "250px";
+        outputArrow.style.width = "0";
+        outputArrow.style.height = "0";
+        outputArrow.style.borderTop = "15px solid transparent";
+        outputArrow.style.borderBottom = "15px solid transparent";
+        outputArrow.style.borderRight = "15px solid #333";
+        mapContainer.appendChild(outputArrow);
+
+        const outputText = document.createElement("div");
+        outputText.className = "input-output-text";
+        outputText.style.right = "-60px";
+        outputText.style.top = "210px";
+        outputText.innerHTML = "Satisfacción del cliente 4★";
+        mapContainer.appendChild(outputText);
+
+        // Título principal
+        const mapTitle = document.createElement("div");
+        mapTitle.style.position = "absolute";
+        mapTitle.style.top = "10px";
+        mapTitle.style.left = "0";
+        mapTitle.style.width = "100%";
+        mapTitle.style.textAlign = "center";
+        mapTitle.style.fontSize = "16px";
+        mapTitle.style.fontWeight = "bold";
+        mapTitle.style.color = "#333";
+        mapTitle.innerHTML = "PROCESOS ESTRATÉGICOS";
+        mapContainer.appendChild(mapTitle);
+
+        const keyTitle = document.createElement("div");
+        keyTitle.style.position = "absolute";
+        keyTitle.style.top = "160px";
+        keyTitle.style.left = "0";
+        keyTitle.style.width = "100%";
+        keyTitle.style.textAlign = "center";
+        keyTitle.style.fontSize = "16px";
+        keyTitle.style.fontWeight = "bold";
+        keyTitle.style.color = "#333";
+        keyTitle.innerHTML = "PROCESOS CLAVE";
+        mapContainer.appendChild(keyTitle);
+
+        const supportTitle = document.createElement("div");
+        supportTitle.style.position = "absolute";
+        supportTitle.style.top = "330px";
+        supportTitle.style.left = "0";
+        supportTitle.style.width = "100%";
+        supportTitle.style.textAlign = "center";
+        supportTitle.style.fontSize = "16px";
+        supportTitle.style.fontWeight = "bold";
+        supportTitle.style.color = "#333";
+        supportTitle.innerHTML = "PROCESOS DE SOPORTE";
+        mapContainer.appendChild(supportTitle);
+
+        // Añadir ciclo PDCA (mejora continua)
+        const pdcaText = document.createElement("div");
+        pdcaText.style.position = "absolute";
+        pdcaText.style.bottom = "20px";
+        pdcaText.style.right = "20px";
+        pdcaText.style.fontSize = "14px";
+        pdcaText.style.fontStyle = "italic";
+        pdcaText.style.color = "#666";
+        pdcaText.innerHTML = "PDCA - Mejora Continua";
+        mapContainer.appendChild(pdcaText);
+
+        // Línea curva que representa el ciclo PDCA
+        const pdcaCycle = document.createElement("div");
+        pdcaCycle.style.position = "absolute";
+        pdcaCycle.style.bottom = "50px";
+        pdcaCycle.style.right = "100px";
+        pdcaCycle.style.width = "100px";
+        pdcaCycle.style.height = "50px";
+        pdcaCycle.style.borderRight = "2px dashed #666";
+        pdcaCycle.style.borderTop = "2px dashed #666";
+        pdcaCycle.style.borderTopRightRadius = "50px";
+        mapContainer.appendChild(pdcaCycle);
+      });
+    </script>
+  </body>
+</html>
