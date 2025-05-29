@@ -203,7 +203,7 @@
       }
 
       .chart-section {
-        margin-top: 40px;
+        margin-top: 30px;
       }
 
       .section-header {
@@ -222,8 +222,8 @@
       .chart-row {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-        gap: 24px;
-        margin-bottom: 30px;
+        gap: 20px;
+        margin-bottom: 20px;
       }
 
       .chart-card {
@@ -245,12 +245,19 @@
         font-weight: 600;
         margin: 0;
       }
+      /* Estilo específico para gráficos secundarios */
+      .secondary-chart {
+        height: 180px !important;
+      }
 
       .chart-canvas-container {
         height: 280px;
         position: relative;
       }
-
+      /* Estilos para ajustar proporción de gráfico circular */
+      #icc-chart-container {
+        height: 220px; /* Optimizado para gráfico circular */
+      }
       .kpi-table-container {
         background: white;
         border-radius: 12px;
@@ -782,7 +789,12 @@
       const successColor = "#05c270";
       const warningColor = "#ffab00";
       const dangerColor = "#ff5630";
-
+      // 1. Modificar los estilos para el contenedor de gráficos principales
+      document
+        .querySelectorAll(".chart-canvas-container")
+        .forEach((container) => {
+          container.style.height = "250px"; // Reducir la altura del gráfico principal
+        });
       // Función para crear pequeñas líneas de tendencia (sparklines)
       function createSparkline(elementId, data, color) {
         const ctx = document.getElementById(elementId).getContext("2d");
@@ -951,11 +963,35 @@
           },
         });
 
-        // También crear un gráfico secundario que muestre el NPS neto
+        // Crear un contenedor adecuado para el gráfico secundario
+        const container = document.createElement("div");
+        container.className = "chart-canvas-container";
+        container.style.height = "180px"; // Altura reducida para el gráfico secundario
+
+        container.style.marginTop = "20px";
+        container.style.marginBottom = "20px";
+        container.style.borderTop = "1px solid var(--border-color)";
+        container.style.paddingTop = "15px";
+
+        // Añadir un título para el gráfico secundario
+        const title = document.createElement("h4");
+        title.style.fontSize = "14px";
+        title.style.color = "var(--text-secondary)";
+        title.style.margin = "0 0 10px 0";
+        title.textContent = "Evolución del NPS";
+        container.appendChild(title);
+
+        // Crear el canvas para el gráfico
         const ctxLine = document.createElement("canvas");
         ctxLine.id = "nps-line-chart";
-        document.getElementById("nps-chart").parentNode.appendChild(ctxLine);
+        container.appendChild(ctxLine);
 
+        // Añadir el contenedor al mismo chart-card del gráfico principal
+        document
+          .getElementById("nps-chart")
+          .parentNode.parentNode.appendChild(container);
+
+        // Datos para el gráfico secundario (sin cambios)
         const npsValues = data.datasets[0].data.map(
           (promoters, i) => promoters - data.datasets[2].data[i]
         );
@@ -1143,12 +1179,33 @@
         });
 
         // Gráfico adicional de progreso hacia la meta
+        // Crear un contenedor adecuado para el gráfico secundario
+        const container = document.createElement("div");
+        container.className = "chart-canvas-container";
+        container.style.height = "180px"; // Altura reducida para el gráfico secundario
+
+        container.style.marginTop = "20px";
+        container.style.marginBottom = "10px";
+        container.style.borderTop = "1px solid var(--border-color)";
+        container.style.paddingTop = "15px";
+
+        // Añadir un título para el gráfico secundario
+        const title = document.createElement("h4");
+        title.style.fontSize = "14px";
+        title.style.color = "var(--text-secondary)";
+        title.style.margin = "0 0 10px 0";
+        title.textContent = "Progresión hacia la meta";
+        container.appendChild(title);
+
+        // Crear el canvas para el gráfico
         const ctxProgress = document.createElement("canvas");
         ctxProgress.id = "icc-progress-chart";
+        container.appendChild(ctxProgress);
+
+        // Añadir el contenedor al mismo chart-card del gráfico principal
         document
           .getElementById("icc-chart")
-          .parentNode.appendChild(ctxProgress);
-
+          .parentNode.parentNode.appendChild(container);
         const progressData = {
           labels: ["Q1 2024", "Q2 2024", "Q3 2024", "Q4 2024", "Q1 2025"],
           datasets: [

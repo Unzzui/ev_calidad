@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Carta Gantt - Hotel HM Plaza</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet" />
+    <link rel="stylesheet" href="../css/main.css" />
+    <style>
+      .gantt-container {
+        margin: 40px 0;
+        padding: 20px;
+        background: #ffffff;
+        border-radius: 12px;
+        overflow-x: auto;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      .gantt-intro {
+        max-width: 1000px;
+        margin: 0 auto 30px;
+        text-align: center;
+        padding: 0 20px;
+      }
+
+      .intro-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #2d3748;
+        margin-bottom: 10px;
+      }
+
+      .intro-text {
+        font-size: 14px;
+        color: #4a5568;
+        line-height: 1.6;
+      }
+
+      .gantt-chart {
+        max-width: 1100px;
+        margin: 0 auto 40px;
+        overflow-x: auto;
+      }
+
+      .chart-container {
+        position: relative;
+        padding: 20px 0;
+        width: 100%;
+      }
+
+      .months {
+        display: flex;
+        margin-left: 200px;
+        border-bottom: 1px solid #e2e8f0;
+        padding-bottom: 10px;
+      }
+
+      .month {
+        width: 75px;
+        text-align: center;
+        font-weight: 500;
+        color: #4a5568;
+        font-size: 13px;
+      }
+
+      .milestones {
+        margin-top: 20px;
+      }
+
+      .milestone {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+        height: 40px;
+      }
+
+      .milestone-label {
+        width: 200px;
+        padding-right: 15px;
+        font-size: 13px;
+        font-weight: 500;
+        color: #2d3748;
+        text-align: right;
+      }
+
+      .milestone-bar-container {
+        flex-grow: 1;
+        position: relative;
+        height: 100%;
+      }
+
+      .milestone-bar {
+        position: absolute;
+        height: 24px;
+        border-radius: 4px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        top: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 12px;
+        font-weight: 500;
+      }
+
+      /* Ajustados los valores de width y left para que encajen en 12 meses exactos */
+      .milestone-h1 {
+        background: #3182ce;
+        width: 75px; /* 2 semanas = 1 mes */
+        left: 0;
+      }
+
+      .milestone-h2 {
+        background: #4299e1;
+        width: 150px; /* 6 semanas = 1.5 meses */
+        left: 75px; /* Comienza después de H1 */
+      }
+
+      .milestone-h3 {
+        background: #38a169;
+        width: 225px; /* 8 semanas = 2 meses */
+        left: 150px; /* Comienza en mes 3 */
+      }
+
+      .milestone-h4 {
+        background: #68d391;
+        width: 300px; /* 12 semanas = 3 meses */
+        left: 300px; /* Comienza en mes 5 */
+      }
+
+      .milestone-h5 {
+        background: #e53e3e;
+        width: 150px; /* 6 semanas = 1.5 meses */
+        left: 600px; /* Comienza en mes 9 */
+      }
+
+      .milestone-closure {
+        background: #f6ad55;
+        width: 150px; /* 4 semanas = 1 mes */
+        left: 750px; /* Comienza en mes 11 */
+      }
+
+      .gantt-table {
+        max-width: 1100px;
+        margin: 0 auto;
+        border-collapse: collapse;
+        width: 100%;
+        font-size: 14px;
+      }
+
+      .gantt-table th {
+        background: #f8fafc;
+        padding: 12px 15px;
+        text-align: left;
+        font-weight: 600;
+        color: #2d3748;
+        border-bottom: 2px solid #e2e8f0;
+      }
+
+      .gantt-table td {
+        padding: 12px 15px;
+        border-bottom: 1px solid #e2e8f0;
+        color: #4a5568;
+      }
+
+      .gantt-table tr:last-child td {
+        border-bottom: none;
+      }
+
+      .hito-cell {
+        font-weight: 500;
+        color: #2d3748;
+      }
+
+      .h1-color {
+        color: #3182ce;
+      }
+      .h2-color {
+        color: #4299e1;
+      }
+      .h3-color {
+        color: #38a169;
+      }
+      .h4-color {
+        color: #68d391;
+      }
+      .h5-color {
+        color: #e53e3e;
+      }
+      .closure-color {
+        color: #ed8936;
+      }
+
+      .cost-cell {
+        text-align: right;
+        font-family: monospace;
+        font-size: 14px;
+      }
+
+      .table-footer {
+        margin-top: 20px;
+        font-size: 13px;
+        color: #718096;
+        font-style: italic;
+      }
+
+      .superscript {
+        vertical-align: super;
+        font-size: 10px;
+      }
+
+      @media (max-width: 768px) {
+        .gantt-table {
+          font-size: 13px;
+        }
+
+        .gantt-table td,
+        .gantt-table th {
+          padding: 10px 8px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-container">
+      <div class="ficha-container">
+        <!-- Botón de regreso -->
+        <a href="../index.html" class="back-button">Volver a Herramientas</a>
+
+        <!-- Cabecera -->
+        <div class="header">
+          <div class="logo">HM</div>
+          <div class="title-area">
+            <h1 class="main-title">CARTA GANTT</h1>
+            <h2 class="subtitle">
+              CRONOGRAMA DE IMPLEMENTACIÓN SGC - HOTEL HM PLAZA
+            </h2>
+          </div>
+          <div class="metadata">
+            <p>GANTT-001</p>
+            <p>Rev 01 · 2025-06</p>
+          </div>
+        </div>
+
+        <!-- Contenido principal -->
+        <div class="gantt-container">
+          <!-- Introducción -->
+          <div class="gantt-intro">
+            <div class="intro-title">
+              Cronograma general de implementación del Sistema de Gestión de
+              Calidad en el Hotel HM Plaza
+            </div>
+            <p class="intro-text">
+              Este cronograma presenta la planificación para implementar el
+              Sistema de Gestión de Calidad (SGC) en un período de 12 meses. Se
+              definen 5 hitos principales más el cierre del primer año,
+              detallando responsables, costos y su relación con las
+              problemáticas detectadas.
+            </p>
+          </div>
+
+          <!-- Diagrama de Gantt -->
+          <div class="gantt-chart">
+            <div class="chart-container">
+              <div class="months">
+                <div class="month">Mes 1</div>
+                <div class="month">Mes 2</div>
+                <div class="month">Mes 3</div>
+                <div class="month">Mes 4</div>
+                <div class="month">Mes 5</div>
+                <div class="month">Mes 6</div>
+                <div class="month">Mes 7</div>
+                <div class="month">Mes 8</div>
+                <div class="month">Mes 9</div>
+                <div class="month">Mes 10</div>
+                <div class="month">Mes 11</div>
+                <div class="month">Mes 12</div>
+              </div>
+
+              <div class="milestones">
+                <div class="milestone">
+                  <div class="milestone-label">H1 - Lanzamiento</div>
+                  <div class="milestone-bar-container">
+                    <div class="milestone-bar milestone-h1">2 semanas</div>
+                  </div>
+                </div>
+
+                <div class="milestone">
+                  <div class="milestone-label">H2 - Gap Analysis y Mapeo</div>
+                  <div class="milestone-bar-container">
+                    <div class="milestone-bar milestone-h2">6 semanas</div>
+                  </div>
+                </div>
+
+                <div class="milestone">
+                  <div class="milestone-label">H3 - Diseño POE y RR.HH.</div>
+                  <div class="milestone-bar-container">
+                    <div class="milestone-bar milestone-h3">8 semanas</div>
+                  </div>
+                </div>
+
+                <div class="milestone">
+                  <div class="milestone-label">H4 - Capacitación y Piloto</div>
+                  <div class="milestone-bar-container">
+                    <div class="milestone-bar milestone-h4">12 semanas</div>
+                  </div>
+                </div>
+
+                <div class="milestone">
+                  <div class="milestone-label">
+                    H5 - Auditoría interna y Revisión
+                  </div>
+                  <div class="milestone-bar-container">
+                    <div class="milestone-bar milestone-h5">6 semanas</div>
+                  </div>
+                </div>
+
+                <div class="milestone">
+                  <div class="milestone-label">Cierre Año 1</div>
+                  <div class="milestone-bar-container">
+                    <div class="milestone-bar milestone-closure">4 semanas</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tabla de detalles -->
+          <table class="gantt-table">
+            <thead>
+              <tr>
+                <th>Hito</th>
+                <th>Actividad principal</th>
+                <th>Duración</th>
+                <th>Responsable</th>
+                <th>Costo<sup>(1)</sup> (USD)</th>
+                <th>Relación directa con el caso</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="hito-cell h1-color">H1 – Lanzamiento (Mes 1)</td>
+                <td>
+                  Taller ejecutivo, firma de Política, creación Comité Calidad
+                </td>
+                <td>2 semanas</td>
+                <td>Gerente Gral. + Quality Manager</td>
+                <td class="cost-cell">3,000</td>
+                <td>
+                  Establece gobierno y responde a la carencia de políticas.
+                </td>
+              </tr>
+              <tr>
+                <td class="hito-cell h2-color">
+                  H2 – Gap Analysis y Mapeo (Mes 2-3)
+                </td>
+                <td>Auditoría ISO 9001, entrevistas, diagramas SIPOC</td>
+                <td>6 semanas</td>
+                <td>Consultor externo</td>
+                <td class="cost-cell">7,000</td>
+                <td>
+                  Detecta fallas en medición, procedimientos y RR.HH. (Effivity)
+                </td>
+              </tr>
+              <tr>
+                <td class="hito-cell h3-color">
+                  H3 – Diseño POE y RR.HH. (Mes 3-5)
+                </td>
+                <td>
+                  Redactar 6 POE críticos, manual de inducción y ficha de
+                  evaluación de desempeño
+                </td>
+                <td>8 semanas</td>
+                <td>Jefes de Área + RR.HH.</td>
+                <td class="cost-cell">5,500</td>
+                <td>
+                  Corrige inducción informal y falta de evaluación de desempeño.
+                </td>
+              </tr>
+              <tr>
+                <td class="hito-cell h4-color">
+                  H4 – Capacitación y Piloto (Mes 5-8)
+                </td>
+                <td>
+                  Entrenar 40 colaboradores, ejecutar piloto en turnos
+                  nocturnos, lanzar dashboard KPIs
+                </td>
+                <td>12 semanas</td>
+                <td>Quality Manager</td>
+                <td class="cost-cell">4,500</td>
+                <td>
+                  Ataca desmotivación nocturna y 88% de reclamos (room-service y
+                  check-in).
+                </td>
+              </tr>
+              <tr>
+                <td class="hito-cell h5-color">
+                  H5 – Auditoría interna y Revisión (Mes 9-10)
+                </td>
+                <td>
+                  Auditoría de cumplimiento, análisis Pareto mensual, acciones
+                  correctivas
+                </td>
+                <td>6 semanas</td>
+                <td>Comité Calidad</td>
+                <td class="cost-cell">2,500</td>
+                <td>
+                  Implementa medición sistemática y ciclo PDCA. (Pacific
+                  Certifications)
+                </td>
+              </tr>
+              <tr>
+                <td class="hito-cell closure-color">
+                  Cierre Año 1 (Mes 11-12)
+                </td>
+                <td>Revisión por la Dirección y plan de mejora 2026</td>
+                <td>4 semanas</td>
+                <td>Gerente Gral.</td>
+                <td class="cost-cell">—</td>
+                <td>Garantiza continuidad y preparación para certificación.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="table-footer">
+            <p>
+              <sup>(1)</sup> Los costos indicados son estimaciones para la
+              implementación del Sistema de Gestión de Calidad en el Hotel HM
+              Plaza de Camboriú.
+            </p>
+            <p>
+              Elaboración propia con datos del caso Hotel HM Plaza de Camboriú.
+            </p>
+          </div>
+        </div>
+
+        <!-- Pie de página -->
+        <div class="footer">
+          <div class="footer-left">
+            📊 Carta Gantt - Sistema de Gestión de Calidad
+          </div>
+          <div class="footer-right">
+            HOTEL HM PLAZA | Departamento de Calidad | 2025
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
