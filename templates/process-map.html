@@ -3,57 +3,144 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mapa de Procesos - Hotel HM Plaza</title>
+    <title>Mapa de Procesos - Hotel HM Plaza 4★</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet" />
     <link rel="stylesheet" href="../css/main.css" />
+    <script src="https://cdn.jsdelivr.net/npm/leader-line@1.0.7/leader-line.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
     <style>
       /* Estilos específicos para mapa de procesos */
       .process-map-container {
         width: 100%;
         padding: 20px;
         position: relative;
+        overflow: hidden;
       }
 
       .process-flow {
         position: relative;
-        height: 600px;
-        border: 1px solid var(--color-border);
+        min-height: 800px;
         border-radius: var(--border-radius);
-        background: white;
+        background: linear-gradient(to bottom, #f8f9fc, #ffffff);
         margin: 20px 0;
+        box-shadow: 0 0 40px rgba(0, 0, 0, 0.05);
+        overflow: hidden;
       }
 
+      /* Fondo de secciones */
+      .section-bg {
+        position: absolute;
+        width: 100%;
+        border-radius: 4px;
+        background-color: rgba(245, 247, 250, 0.8);
+        z-index: 1;
+        transition: all 0.3s ease;
+      }
+
+      .strategic-section-bg {
+        top: 40px;
+        height: 120px;
+        background: linear-gradient(
+          to right,
+          rgba(228, 235, 246, 0.7),
+          rgba(245, 247, 252, 0.8)
+        );
+        border-left: 4px solid #4e73df;
+      }
+
+      .key-section-bg {
+        top: 190px;
+        height: 160px;
+        background: linear-gradient(
+          to right,
+          rgba(226, 246, 237, 0.7),
+          rgba(245, 252, 248, 0.8)
+        );
+        border-left: 4px solid #1cc88a;
+      }
+
+      .support-section-bg {
+        top: 380px;
+        height: 120px;
+        background: linear-gradient(
+          to right,
+          rgba(252, 245, 225, 0.7),
+          rgba(252, 250, 245, 0.8)
+        );
+        border-left: 4px solid #f6c23e;
+      }
+
+      /* Flujo general */
+      .flow-path {
+        position: absolute;
+        height: 100%;
+        width: 80%;
+        top: 0;
+        left: 10%;
+        z-index: 0;
+        opacity: 0.15;
+      }
+
+      .flow-path svg {
+        width: 100%;
+        height: 100%;
+      }
+
+      /* Estilos para cajas de procesos */
       .process-box {
         position: absolute;
-        border-radius: var(--border-radius);
-        padding: 15px;
+        border-radius: 10px;
+        padding: 20px 15px;
         text-align: center;
-        box-shadow: var(--box-shadow);
-        transition: transform 0.2s;
+        transition: all 0.3s ease;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        overflow: hidden;
       }
 
+      /* Efecto hover */
       .process-box:hover {
-        transform: scale(1.03);
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
       }
 
-      /* Tipos de procesos */
+      /* Tipos de procesos con gradientes */
       .strategic {
-        background-color: rgba(78, 115, 223, 0.8);
+        background: linear-gradient(135deg, #4e73df, #3a54a5);
         color: white;
+        box-shadow: 0 6px 16px rgba(78, 115, 223, 0.3);
       }
 
       .key {
-        background-color: rgba(28, 200, 138, 0.8);
+        background: linear-gradient(135deg, #1cc88a, #169969);
         color: white;
+        box-shadow: 0 6px 16px rgba(28, 200, 138, 0.3);
       }
 
       .support {
-        background-color: rgba(246, 194, 62, 0.8);
+        background: linear-gradient(135deg, #f6c23e, #d9a52a);
         color: white;
+        box-shadow: 0 6px 16px rgba(246, 194, 62, 0.3);
+      }
+
+      /* Contenido de las cajas */
+      .process-icon {
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: rgba(255, 255, 255, 0.2);
       }
 
       .process-title {
@@ -64,35 +151,320 @@
 
       .process-description {
         font-size: 12px;
+        max-height: 0;
+        opacity: 0;
+        transition: all 0.3s ease;
+        overflow: hidden;
       }
 
-      .process-arrow {
+      .process-box:hover .process-description {
+        max-height: 80px;
+        opacity: 1;
+        margin-top: 8px;
+      }
+
+      /* Entradas y salidas */
+      .process-io {
         position: absolute;
-        border-top: 2px dashed #ccc;
+        z-index: 3;
+        min-width: 200px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
       }
 
-      .process-arrow:after {
+      .io-arrow {
+        position: relative;
+        width: 40px;
+        height: 40px;
+        background-color: #f1f1f1;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        color: #333;
+        transition: all 0.3s ease;
+      }
+
+      .io-text {
+        text-align: center;
+        margin-top: 10px;
+        font-size: 12px;
+        font-weight: 500;
+        color: #555;
+        width: 180px;
+        background-color: white;
+        padding: 8px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      }
+
+      /* Sección de títulos */
+      .section-title {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 2;
+        font-size: 16px;
+        font-weight: 600;
+        color: #333;
+        padding: 6px 20px;
+        border-radius: 20px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background-color: white;
+      }
+
+      .strategic-title {
+        top: 10px;
+        border-bottom: 3px solid #4e73df;
+      }
+
+      .key-title {
+        top: 160px;
+        border-bottom: 3px solid #1cc88a;
+      }
+
+      .support-title {
+        top: 350px;
+        border-bottom: 3px solid #f6c23e;
+      }
+
+      /* Ciclo PDCA */
+      .pdca-container {
+        position: absolute;
+        bottom: 30px;
+        right: 30px;
+        z-index: 3;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .pdca-circle {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background: white;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        cursor: pointer;
+      }
+
+      .pdca-circle svg {
+        width: 80%;
+        height: 80%;
+        transform-origin: center;
+        animation: rotate 40s linear infinite;
+        opacity: 0.8;
+      }
+
+      @keyframes rotate {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .pdca-text {
+        font-size: 10px;
+        font-weight: 500;
+        position: absolute;
+      }
+
+      .pdca-text.plan {
+        top: 15%;
+        left: 28%;
+        color: #4e73df;
+      }
+      .pdca-text.do {
+        top: 28%;
+        right: 15%;
+        color: #1cc88a;
+      }
+      .pdca-text.check {
+        bottom: 15%;
+        right: 28%;
+        color: #f6c23e;
+      }
+      .pdca-text.act {
+        bottom: 28%;
+        left: 15%;
+        color: #e74a3b;
+      }
+
+      .pdca-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: #333;
+        margin-top: 10px;
+      }
+
+      /* Leyenda mejorada */
+      .legend {
+        margin-top: 30px;
+        padding: 20px;
+        background: white;
+        border-radius: var(--border-radius);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      }
+
+      .legend h3 {
+        font-size: 16px;
+        margin: 0 0 15px 0;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #eee;
+      }
+
+      .legend-items {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+
+      .legend-item {
+        display: flex;
+        align-items: center;
+        flex: 1;
+        min-width: 200px;
+      }
+
+      .legend-color {
+        width: 24px;
+        height: 24px;
+        margin-right: 10px;
+        border-radius: 4px;
+      }
+
+      .legend-text {
+        font-size: 14px;
+      }
+
+      .strategic-color {
+        background: linear-gradient(135deg, #4e73df, #3a54a5);
+      }
+
+      .key-color {
+        background: linear-gradient(135deg, #1cc88a, #169969);
+      }
+
+      .support-color {
+        background: linear-gradient(135deg, #f6c23e, #d9a52a);
+      }
+      /* Agregar en la sección de estilos del archivo */
+
+      /* Estilos para tabla SIPOC */
+      .sipoc-section {
+        margin: 40px 0 20px 0;
+        padding: 0 20px;
+      }
+
+      .sipoc-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #333;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 20px;
+      }
+
+      .sipoc-title i {
+        color: #1cc88a;
+      }
+
+      .sipoc-table-container {
+        overflow-x: auto;
+        background: white;
+        border-radius: var(--border-radius);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      }
+
+      .sipoc-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+      }
+
+      .sipoc-table thead th {
+        background: linear-gradient(to bottom, #f3f7fe, #edf1f9);
+        padding: 12px 15px;
+        text-align: left;
+        border-bottom: 2px solid #e0e6f7;
+        color: #4a5568;
+        font-weight: 600;
+      }
+
+      .sipoc-table tbody td {
+        padding: 12px 15px;
+        border-bottom: 1px solid #f0f2f7;
+        vertical-align: top;
+        line-height: 1.4;
+      }
+
+      .sipoc-table tbody tr:last-child td {
+        border-bottom: none;
+      }
+
+      .sipoc-table tbody tr:hover {
+        background-color: rgba(28, 200, 138, 0.05);
+      }
+
+      .process-name {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .process-indicator {
+        width: 12px;
+        height: 12px;
+        border-radius: 3px;
+        display: inline-block;
+      }
+
+      /* Efecto de transición entre secciones */
+      .sipoc-section {
+        position: relative;
+        padding-top: 20px;
+      }
+
+      .sipoc-section::before {
         content: "";
         position: absolute;
-        right: -10px;
-        top: -6px;
-        border-left: 10px solid #ccc;
-        border-top: 5px solid transparent;
-        border-bottom: 5px solid transparent;
+        top: -30px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80%;
+        height: 3px;
+        background: linear-gradient(
+          to right,
+          transparent,
+          rgba(28, 200, 138, 0.3),
+          transparent
+        );
       }
+      /* Responsividad */
+      @media (max-width: 768px) {
+        .process-flow {
+          height: 1200px;
+        }
 
-      /* Flechas de entrada/salida */
-      .input-arrow,
-      .output-arrow {
-        position: absolute;
-      }
+        .strategic-section-bg,
+        .key-section-bg,
+        .support-section-bg {
+          height: auto;
+        }
 
-      .input-output-text {
-        position: absolute;
-        font-size: 12px;
-        color: var(--color-text);
-        text-align: center;
-        width: 120px;
+        /* Ajustes para móviles se aplicarían mediante JavaScript */
       }
     </style>
   </head>
@@ -104,10 +476,12 @@
 
         <!-- Cabecera -->
         <div class="header">
-          <div class="logo">4★</div>
+          <div class="logo">HM</div>
           <div class="title-area">
             <h1 class="main-title">MAPA DE PROCESOS</h1>
-            <h2 class="subtitle">HOTEL 4 ESTRELLAS</h2>
+            <h2 class="subtitle">
+              HOTEL HM PLAZA · SISTEMA DE GESTIÓN DE CALIDAD
+            </h2>
           </div>
           <div class="metadata">
             <p>MAP-PROC-001</p>
@@ -118,52 +492,189 @@
         <!-- Contenedor del mapa de procesos -->
         <div class="process-map-container">
           <div class="process-flow" id="process-map">
-            <!-- Se generará dinámicamente con JavaScript -->
+            <!-- Secciones de fondo -->
+            <div class="section-bg strategic-section-bg"></div>
+            <div class="section-bg key-section-bg"></div>
+            <div class="section-bg support-section-bg"></div>
+
+            <!-- Títulos de sección -->
+            <div class="section-title strategic-title">
+              <i data-feather="compass"></i>PROCESOS ESTRATÉGICOS
+            </div>
+            <div class="section-title key-title">
+              <i data-feather="star"></i>PROCESOS CLAVE
+            </div>
+            <div class="section-title support-title">
+              <i data-feather="tool"></i>PROCESOS DE SOPORTE
+            </div>
+
+            <!-- Entrada -->
+            <div class="process-io" style="left: -10px; top: 260px">
+              <div class="io-arrow">
+                <i data-feather="arrow-right"></i>
+              </div>
+              <div class="io-text">Necesidades y expectativas del cliente</div>
+            </div>
+
+            <!-- Salida -->
+            <div class="process-io" style="right: 10px; top: 320px">
+              <div class="io-arrow">
+                <i data-feather="check-circle"></i>
+              </div>
+              <div class="io-text">Satisfacción del cliente 4★</div>
+            </div>
+
+            <!-- Ciclo PDCA -->
+            <div class="pdca-container">
+              <div class="pdca-circle">
+                <svg viewBox="0 0 100 100">
+                  <circle
+                    cx="50"
+                    cy="50"
+                    r="45"
+                    fill="none"
+                    stroke="#4e73df"
+                    stroke-width="2"
+                    stroke-dasharray="3,3" />
+                  <path
+                    d="M50,5 A45,45 0 0,1 95,50"
+                    fill="none"
+                    stroke="#4e73df"
+                    stroke-width="4" />
+                  <path
+                    d="M95,50 A45,45 0 0,1 50,95"
+                    fill="none"
+                    stroke="#1cc88a"
+                    stroke-width="4" />
+                  <path
+                    d="M50,95 A45,45 0 0,1 5,50"
+                    fill="none"
+                    stroke="#f6c23e"
+                    stroke-width="4" />
+                  <path
+                    d="M5,50 A45,45 0 0,1 50,5"
+                    fill="none"
+                    stroke="#e74a3b"
+                    stroke-width="4" />
+                </svg>
+                <div class="pdca-text plan">PLAN</div>
+                <div class="pdca-text do">DO</div>
+                <div class="pdca-text check">CHECK</div>
+                <div class="pdca-text act">ACT</div>
+              </div>
+              <div class="pdca-title">Ciclo de Mejora Continua</div>
+            </div>
+
+            <!-- Los procesos se generarán con JavaScript -->
           </div>
         </div>
+        <!-- Agregar después del div class="process-flow" id="process-map" y antes de la leyenda -->
 
-        <!-- Leyenda -->
+        <!-- SIPOC - Tabla de Procesos Clave -->
+        <div class="sipoc-section">
+          <h3 class="sipoc-title">
+            <i data-feather="layers"></i>
+            Análisis SIPOC de Procesos Clave
+          </h3>
+
+          <div class="sipoc-table-container">
+            <table class="sipoc-table">
+              <thead>
+                <tr>
+                  <th width="18%">Proceso</th>
+                  <th width="18%">Proveedores<br />(Suppliers)</th>
+                  <th width="18%">Entradas<br />(Inputs)</th>
+                  <th width="20%">Proceso<br />(Process)</th>
+                  <th width="18%">Salidas<br />(Outputs)</th>
+                  <th width="18%">Clientes<br />(Customers)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Proceso 1 -->
+                <tr>
+                  <td class="process-name">
+                    <div class="process-indicator key-color"></div>
+                    <strong>Reservas & check-in/out</strong>
+                  </td>
+                  <td>Agencias, web, clientes directos</td>
+                  <td>Datos de reserva, preferencia huésped</td>
+                  <td>Verificar, asignar habitación, entregar llave</td>
+                  <td>Ficha registro, llave, factura</td>
+                  <td>Huésped, contabilidad</td>
+                </tr>
+
+                <!-- Proceso 2 -->
+                <tr>
+                  <td class="process-name">
+                    <div class="process-indicator key-color"></div>
+                    <strong>Room service 24 h</strong>
+                  </td>
+                  <td>Cocina, bodega</td>
+                  <td>Comida, receta estándar</td>
+                  <td>Preparar, revisar, entregar pedido</td>
+                  <td>Bandeja servida, cargo en cuenta</td>
+                  <td>Huésped</td>
+                </tr>
+
+                <!-- Proceso 3 -->
+                <tr>
+                  <td class="process-name">
+                    <div class="process-indicator key-color"></div>
+                    <strong>Housekeeping & mantenimiento</strong>
+                  </td>
+                  <td>Proveedores limpieza, mantenimiento</td>
+                  <td>Insumos limpieza, partes de mantenimiento</td>
+                  <td>Limpiar, reponer amenities, reparar</td>
+                  <td>Habitación limpia, parte cerrado</td>
+                  <td>Huésped, recepción</td>
+                </tr>
+
+                <!-- Proceso 4 -->
+                <tr>
+                  <td class="process-name">
+                    <div class="process-indicator key-color"></div>
+                    <strong>Reclamos & fidelización</strong>
+                  </td>
+                  <td>Recepción, call-center</td>
+                  <td>Ticket de reclamo</td>
+                  <td>Registrar, investigar, resolver, feedback</td>
+                  <td>Respuesta, upgrade/compensación</td>
+                  <td>Huésped, gerencia</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <!-- Leyenda mejorada -->
         <div class="legend">
-          <h3>Leyenda</h3>
-          <div style="display: flex; gap: 20px; margin-top: 10px">
-            <div style="display: flex; align-items: center">
-              <div
-                style="
-                  width: 20px;
-                  height: 20px;
-                  background-color: rgba(78, 115, 223, 0.8);
-                  margin-right: 5px;
-                "></div>
-              <span>Procesos Estratégicos</span>
+          <h3>Leyenda de Procesos</h3>
+          <div class="legend-items">
+            <div class="legend-item">
+              <div class="legend-color strategic-color"></div>
+              <div class="legend-text">
+                Procesos Estratégicos - Dirección y planificación
+              </div>
             </div>
-            <div style="display: flex; align-items: center">
-              <div
-                style="
-                  width: 20px;
-                  height: 20px;
-                  background-color: rgba(28, 200, 138, 0.8);
-                  margin-right: 5px;
-                "></div>
-              <span>Procesos Clave</span>
+            <div class="legend-item">
+              <div class="legend-color key-color"></div>
+              <div class="legend-text">
+                Procesos Clave - Generan valor para el cliente
+              </div>
             </div>
-            <div style="display: flex; align-items: center">
-              <div
-                style="
-                  width: 20px;
-                  height: 20px;
-                  background-color: rgba(246, 194, 62, 0.8);
-                  margin-right: 5px;
-                "></div>
-              <span>Procesos de Soporte</span>
+            <div class="legend-item">
+              <div class="legend-color support-color"></div>
+              <div class="legend-text">
+                Procesos de Soporte - Apoyan los procesos clave
+              </div>
             </div>
           </div>
         </div>
 
         <!-- Pie de página -->
         <div class="footer">
-          <div class="footer-left">Mapa de Procesos</div>
+          <div class="footer-left">Mapa de Procesos · SGC</div>
           <div class="footer-right">
-            Hotel HM Plaza | Departamento de Calidad | 2025
+            HOTEL HM PLAZA | Departamento de Calidad | 2025
           </div>
         </div>
       </div>
@@ -171,115 +682,141 @@
 
     <script>
       document.addEventListener("DOMContentLoaded", function () {
+        // Inicializar los iconos de Feather
+        feather.replace();
+
         const mapContainer = document.getElementById("process-map");
 
-        // Datos de los procesos
+        // Datos de los procesos con iconos
+        // Modificar en la sección de JavaScript para una mejor distribución de los procesos
+
+        // Ajustar las posiciones de los procesos de manera más simétrica
+        // Ajuste de las coordenadas X para centrar mejor los procesos
         const processes = [
-          // Procesos estratégicos
+          // Procesos estratégicos - espaciados uniformemente con mayor margen
           {
             id: "strategic-1",
             type: "strategic",
             title: "Planificación y presupuesto anual",
-            description: "Fija objetivos de ocupación y RevPAR",
-            x: 10,
-            y: 50,
-            width: 220,
+            description:
+              "Fija objetivos de ocupación y RevPAR. Determina las metas financieras anuales y la estrategia de precios.",
+            x: 110, // Aumentado desde 72
+            y: 70,
+            width: 200,
             height: 80,
+            icon: "bar-chart-2",
           },
           {
             id: "strategic-2",
             type: "strategic",
             title: "Marketing y ventas",
             description:
-              "Posiciona el hotel en turismo vacacional y de negocios",
-            x: 240,
-            y: 50,
-            width: 220,
+              "Posiciona el hotel en turismo vacacional y de negocios. Gestiona canales digitales y alianzas comerciales.",
+            x: 420, // Aumentado desde 350
+            y: 70,
+            width: 200,
             height: 80,
+            icon: "pie-chart",
           },
           {
             id: "strategic-3",
             type: "strategic",
             title: "Gestión de la calidad",
-            description: "Gobierna el SGC, auditorías y mejora continua",
-            x: 470,
-            y: 50,
-            width: 220,
+            description:
+              "Gobierna el SGC, auditorías y mejora continua. Monitorea KPIs y coordina las acciones correctivas para mantener el estándar 4★.",
+            x: 730, // Aumentado desde 628
+            y: 70,
+            width: 200,
             height: 80,
+            icon: "award",
           },
 
-          // Procesos clave
+          // Procesos clave - distribuidos equitativamente con mayor espaciado
           {
             id: "key-1",
             type: "key",
             title: "Gestión de reservas y check-in/out",
-            description: "Recepción y registro de huéspedes",
-            x: 10,
-            y: 200,
-            width: 160,
+            description:
+              "Recepción y registro de huéspedes. Primer punto de contacto y última impresión del servicio.",
+            x: 133, // Aumentado desde 72
+            y: 230,
+            width: 170,
             height: 100,
+            icon: "book",
           },
           {
             id: "key-2",
             type: "key",
             title: "Room service 24h",
-            description: "Atención y servicio a habitaciones",
-            x: 180,
-            y: 200,
-            width: 160,
+            description:
+              "Atención y servicio a habitaciones. Disponibilidad constante para satisfacer necesidades de los huéspedes.",
+            x: 366, // Aumentado desde 272
+            y: 230,
+            width: 170,
             height: 100,
+            icon: "coffee",
           },
           {
             id: "key-3",
             type: "key",
             title: "Housekeeping & mantenimiento",
-            description: "Limpieza y mantenimiento preventivo",
-            x: 350,
-            y: 200,
-            width: 160,
+            description:
+              "Limpieza y mantenimiento preventivo. Garantiza la presentación y funcionalidad de las instalaciones.",
+            x: 599, // Aumentado desde 458
+            y: 230,
+            width: 170,
             height: 100,
+            icon: "home",
           },
           {
             id: "key-4",
             type: "key",
             title: "Gestión de reclamos",
-            description: "Atención a quejas y fidelización",
-            x: 520,
-            y: 200,
-            width: 160,
+            description:
+              "Atención a quejas y fidelización. Procedimiento estructurado para resolución eficiente de inconformidades.",
+            x: 832, // Aumentado desde 658
+            y: 230,
+            width: 170,
             height: 100,
+            icon: "message-square",
           },
 
-          // Procesos de soporte
+          // Procesos de soporte - espaciados uniformemente con mejor distribución
           {
             id: "support-1",
             type: "support",
             title: "Recursos Humanos",
-            description: "Inducción, turnos, evaluación",
-            x: 60,
-            y: 370,
+            description:
+              "Inducción, turnos, evaluación de desempeño. Gestiona el talento para mantener la calidad del servicio.",
+            x: 110, // Aumentado desde 106
+            y: 410,
             width: 200,
             height: 80,
+            icon: "users",
           },
           {
             id: "support-2",
             type: "support",
             title: "Finanzas & Compras",
-            description: "Costeo, pagos a proveedores",
-            x: 270,
-            y: 370,
+            description:
+              "Costeo, pagos a proveedores. Administra los recursos financieros y relaciones con proveedores.",
+            x: 420, // Aumentado desde 350
+            y: 410,
             width: 200,
             height: 80,
+            icon: "dollar-sign",
           },
           {
             id: "support-3",
             type: "support",
             title: "Tecnologías de la Información",
-            description: "PMS, POS, Wi-Fi",
-            x: 480,
-            y: 370,
+            description:
+              "PMS, POS, Wi-Fi. Mantiene los sistemas tecnológicos que soportan la operación hotelera.",
+            x: 730, // Aumentado desde 594
+            y: 410,
             width: 200,
             height: 80,
+            icon: "wifi",
           },
         ];
 
@@ -292,111 +829,165 @@
           box.style.top = `${process.y}px`;
           box.style.width = `${process.width}px`;
           box.style.height = `${process.height}px`;
+
           box.innerHTML = `
-                    <div class="process-title">${process.title}</div>
-                    <div class="process-description">${process.description}</div>
-                `;
+            <div class="process-icon">
+              <i data-feather="${process.icon}"></i>
+            </div>
+            <div class="process-title">${process.title}</div>
+            <div class="process-description">${process.description}</div>
+          `;
+
           mapContainer.appendChild(box);
         });
 
-        // Añadir flechas y textos de entrada/salida
-        const inputArrow = document.createElement("div");
-        inputArrow.className = "input-arrow";
-        inputArrow.style.position = "absolute";
-        inputArrow.style.left = "0";
-        inputArrow.style.top = "250px";
-        inputArrow.style.width = "0";
-        inputArrow.style.height = "0";
-        inputArrow.style.borderTop = "15px solid transparent";
-        inputArrow.style.borderBottom = "15px solid transparent";
-        inputArrow.style.borderLeft = "15px solid #333";
-        mapContainer.appendChild(inputArrow);
+        // Una vez añadidos los elementos, inicializar los iconos
+        feather.replace();
 
-        const inputText = document.createElement("div");
-        inputText.className = "input-output-text";
-        inputText.style.left = "-60px";
-        inputText.style.top = "210px";
-        inputText.innerHTML = "Necesidades y expectativas del cliente";
-        mapContainer.appendChild(inputText);
+        // Crear conexiones con LeaderLine
+        setTimeout(() => {
+          // Conexiones entre procesos estratégicos
+          new LeaderLine(
+            document.getElementById("strategic-1"),
+            document.getElementById("strategic-2"),
+            {
+              path: "straight",
+              color: "rgba(78, 115, 223, 0.5)",
+              size: 2,
+              startSocket: "right",
+              endSocket: "left",
+            }
+          );
 
-        const outputArrow = document.createElement("div");
-        outputArrow.className = "output-arrow";
-        outputArrow.style.position = "absolute";
-        outputArrow.style.right = "0";
-        outputArrow.style.top = "250px";
-        outputArrow.style.width = "0";
-        outputArrow.style.height = "0";
-        outputArrow.style.borderTop = "15px solid transparent";
-        outputArrow.style.borderBottom = "15px solid transparent";
-        outputArrow.style.borderRight = "15px solid #333";
-        mapContainer.appendChild(outputArrow);
+          new LeaderLine(
+            document.getElementById("strategic-2"),
+            document.getElementById("strategic-3"),
+            {
+              path: "straight",
+              color: "rgba(78, 115, 223, 0.5)",
+              size: 2,
+              startSocket: "right",
+              endSocket: "left",
+            }
+          );
 
-        const outputText = document.createElement("div");
-        outputText.className = "input-output-text";
-        outputText.style.right = "-60px";
-        outputText.style.top = "210px";
-        outputText.innerHTML = "Satisfacción del cliente 4★";
-        mapContainer.appendChild(outputText);
+          // Conexión de estratégicos a clave
+          new LeaderLine(
+            document.getElementById("strategic-2"),
+            document.getElementById("key-1"),
+            {
+              path: "grid",
+              color: "rgba(28, 200, 138, 0.5)",
+              size: 2,
+              startSocket: "bottom",
+              endSocket: "top",
+            }
+          );
 
-        // Título principal
-        const mapTitle = document.createElement("div");
-        mapTitle.style.position = "absolute";
-        mapTitle.style.top = "10px";
-        mapTitle.style.left = "0";
-        mapTitle.style.width = "100%";
-        mapTitle.style.textAlign = "center";
-        mapTitle.style.fontSize = "16px";
-        mapTitle.style.fontWeight = "bold";
-        mapTitle.style.color = "#333";
-        mapTitle.innerHTML = "PROCESOS ESTRATÉGICOS";
-        mapContainer.appendChild(mapTitle);
+          // Conexiones entre procesos clave
+          new LeaderLine(
+            document.getElementById("key-1"),
+            document.getElementById("key-2"),
+            {
+              path: "straight",
+              color: "rgba(28, 200, 138, 0.5)",
+              size: 2,
+              startSocket: "right",
+              endSocket: "left",
+            }
+          );
 
-        const keyTitle = document.createElement("div");
-        keyTitle.style.position = "absolute";
-        keyTitle.style.top = "160px";
-        keyTitle.style.left = "0";
-        keyTitle.style.width = "100%";
-        keyTitle.style.textAlign = "center";
-        keyTitle.style.fontSize = "16px";
-        keyTitle.style.fontWeight = "bold";
-        keyTitle.style.color = "#333";
-        keyTitle.innerHTML = "PROCESOS CLAVE";
-        mapContainer.appendChild(keyTitle);
+          new LeaderLine(
+            document.getElementById("key-2"),
+            document.getElementById("key-3"),
+            {
+              path: "straight",
+              color: "rgba(28, 200, 138, 0.5)",
+              size: 2,
+              startSocket: "right",
+              endSocket: "left",
+            }
+          );
 
-        const supportTitle = document.createElement("div");
-        supportTitle.style.position = "absolute";
-        supportTitle.style.top = "330px";
-        supportTitle.style.left = "0";
-        supportTitle.style.width = "100%";
-        supportTitle.style.textAlign = "center";
-        supportTitle.style.fontSize = "16px";
-        supportTitle.style.fontWeight = "bold";
-        supportTitle.style.color = "#333";
-        supportTitle.innerHTML = "PROCESOS DE SOPORTE";
-        mapContainer.appendChild(supportTitle);
+          new LeaderLine(
+            document.getElementById("key-3"),
+            document.getElementById("key-4"),
+            {
+              path: "straight",
+              color: "rgba(28, 200, 138, 0.5)",
+              size: 2,
+              startSocket: "right",
+              endSocket: "left",
+            }
+          );
 
-        // Añadir ciclo PDCA (mejora continua)
-        const pdcaText = document.createElement("div");
-        pdcaText.style.position = "absolute";
-        pdcaText.style.bottom = "20px";
-        pdcaText.style.right = "20px";
-        pdcaText.style.fontSize = "14px";
-        pdcaText.style.fontStyle = "italic";
-        pdcaText.style.color = "#666";
-        pdcaText.innerHTML = "PDCA - Mejora Continua";
-        mapContainer.appendChild(pdcaText);
+          // Conexiones de soporte a clave
+          new LeaderLine(
+            document.getElementById("support-1"),
+            document.getElementById("key-2"),
+            {
+              path: "arc",
+              color: "rgba(246, 194, 62, 0.5)",
+              size: 2,
+              startSocket: "top",
+              endSocket: "bottom",
+            }
+          );
 
-        // Línea curva que representa el ciclo PDCA
-        const pdcaCycle = document.createElement("div");
-        pdcaCycle.style.position = "absolute";
-        pdcaCycle.style.bottom = "50px";
-        pdcaCycle.style.right = "100px";
-        pdcaCycle.style.width = "100px";
-        pdcaCycle.style.height = "50px";
-        pdcaCycle.style.borderRight = "2px dashed #666";
-        pdcaCycle.style.borderTop = "2px dashed #666";
-        pdcaCycle.style.borderTopRightRadius = "50px";
-        mapContainer.appendChild(pdcaCycle);
+          new LeaderLine(
+            document.getElementById("support-2"),
+            document.getElementById("key-3"),
+            {
+              path: "arc",
+              color: "rgba(246, 194, 62, 0.5)",
+              size: 2,
+              startSocket: "top",
+              endSocket: "bottom",
+            }
+          );
+
+          new LeaderLine(
+            document.getElementById("support-3"),
+            document.getElementById("key-4"),
+            {
+              path: "arc",
+              color: "rgba(246, 194, 62, 0.5)",
+              size: 2,
+              startSocket: "top",
+              endSocket: "bottom",
+            }
+          );
+
+          // Conexión de calidad a todo (mejora continua)
+          new LeaderLine(
+            document.getElementById("strategic-3"),
+            document.getElementById("key-4"),
+            {
+              path: "arc",
+              color: "rgba(231, 74, 59, 0.5)",
+              size: 2,
+              dash: { animation: true },
+              startSocket: "bottom",
+              endSocket: "right",
+            }
+          );
+        }, 500);
+
+        // Funcionalidad de zoom (opcional)
+        let scale = 1;
+        const processMap = document.getElementById("process-map");
+
+        document.addEventListener("keydown", (e) => {
+          // Zoom con teclas + y -
+          if (e.key === "+" || e.key === "=") {
+            scale += 0.1;
+            processMap.style.transform = `scale(${scale})`;
+          } else if (e.key === "-" || e.key === "_") {
+            scale -= 0.1;
+            if (scale < 0.5) scale = 0.5;
+            processMap.style.transform = `scale(${scale})`;
+          }
+        });
       });
     </script>
   </body>
