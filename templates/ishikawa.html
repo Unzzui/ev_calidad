@@ -14,7 +14,7 @@
       .ishikawa-container {
         margin: 40px 0;
         padding: 20px;
-        background: #f8f9fa;
+        background: #ffffff;
         border-radius: 12px;
         overflow-x: auto;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -27,128 +27,185 @@
         margin: 0 auto;
       }
 
-      /* Espina central */
+      /* Espina central con estilo mejorado */
       .main-spine {
         position: absolute;
         top: 350px;
         left: 100px;
         width: 1000px;
-        height: 6px;
-        background: #4a6bdf;
+        height: 16px;
+        background: #2d3748;
         z-index: 1;
+        border-radius: 8px;
+        box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
       }
 
-      /* Punta de flecha */
+      /* Punta de flecha mejorada */
       .arrow-head {
         position: absolute;
         top: 335px;
         right: 150px;
         width: 0;
         height: 0;
-        border-left: 20px solid #4a6bdf;
-        border-top: 18px solid transparent;
-        border-bottom: 18px solid transparent;
+        border-left: 40px solid #2d3748;
+        border-top: 24px solid transparent;
+        border-bottom: 24px solid transparent;
         z-index: 2;
+        filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, 0.2));
       }
 
-      /* Problema principal */
+      /* Problema principal con estilo mejorado */
       .problem {
         position: absolute;
-        top: 320px;
-        right: 10px;
-        width: 150px;
-        padding: 15px;
-        background: #4a6bdf;
-        color: white;
+        top: 330px;
+        right: 20px;
+        width: 180px;
+        padding: 20px 15px;
+        background: #fef2f2;
+        color: #b91c1c;
         text-align: center;
-        border-radius: 8px;
+        border-radius: 50%;
+        height: 180px;
         font-weight: bold;
-        border: 2px solid white;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        border: 4px solid #c01c28;
+        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
         z-index: 10;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
 
       /* Categorías */
       .category {
         position: absolute;
         width: 120px;
-        padding: 10px;
+        padding: 12px 10px;
         text-align: center;
         font-weight: bold;
         color: white;
-        border-radius: 6px;
+        border-radius: 8px;
         z-index: 5;
+        box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
       }
 
       /* Líneas de espina */
       .spine-line {
         position: absolute;
-        background: #f06292;
-        height: 3px;
+        height: 5px;
         transform-origin: left center;
         z-index: 2;
+        border-radius: 3px;
+        box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.15);
       }
 
-      /* Líneas superiores */
+      /* Líneas superiores - hacia arriba (como en la imagen) */
       .line-top {
         transform: rotate(-120deg);
       }
 
-      /* Líneas inferiores */
+      /* Líneas inferiores - hacia abajo (como en la imagen) */
       .line-bottom {
         transform: rotate(120deg);
       }
 
-      /* Posición de las categorías */
-      .cat-top {
-        top: 160px;
-        background: #f06292;
-        box-shadow: 0 4px 8px rgba(240, 98, 146, 0.3);
+      /* Colores de las categorías según palette */
+      .cat-personas {
+        background: #1a5fb4;
+      }
+      .cat-maquinas {
+        background: #c01c28;
+      }
+      .cat-entorno {
+        background: #26a269;
+      }
+      .cat-materiales {
+        background: #e5a50a;
+      }
+      .cat-metodos {
+        background: #813d9c;
+      }
+      .cat-mediciones {
+        background: #2b7c85;
       }
 
-      .cat-bottom {
-        top: 480px;
-        background: #f06292;
-        box-shadow: 0 4px 8px rgba(240, 98, 146, 0.3);
+      /* Líneas de las categorías con sus colores */
+      .line-personas {
+        background: #1a5fb4;
       }
-
-      /* Posicionamiento horizontal */
-      .pos-1 {
-        left: 200px;
+      .line-maquinas {
+        background: #c01c28;
       }
-      .pos-2 {
-        left: 500px;
+      .line-entorno {
+        background: #26a269;
       }
-      .pos-3 {
-        left: 800px;
+      .line-materiales {
+        background: #e5a50a;
+      }
+      .line-metodos {
+        background: #813d9c;
+      }
+      .line-mediciones {
+        background: #2b7c85;
       }
 
       /* Subcausas */
       .subcause {
         position: absolute;
-        width: 130px;
+        width: 140px;
         padding: 8px 12px;
-        border-radius: 6px;
-        font-size: 12px;
+        border-radius: 8px;
+        font-size: 13px;
         background: white;
-        border: 1px solid #f06292;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         text-align: center;
         z-index: 3;
+        box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
       }
 
-      .critical {
-        background: #fff0f5;
-        border: 2px solid #ff4081;
-        font-weight: bold;
-        box-shadow: 0 2px 8px rgba(255, 64, 129, 0.2);
+      /* Bordes de subcausas según categoría */
+      .border-personas {
+        border: 2px solid #1a5fb4;
+      }
+      .border-maquinas {
+        border: 2px solid #c01c28;
+      }
+      .border-entorno {
+        border: 2px solid #26a269;
+      }
+      .border-materiales {
+        border: 2px solid #e5a50a;
+      }
+      .border-metodos {
+        border: 2px solid #813d9c;
+      }
+      .border-mediciones {
+        border: 2px solid #2b7c85;
       }
 
       .subcause-line {
         position: absolute;
-        background: #f798b6;
         height: 2px;
         z-index: 2;
+      }
+
+      /* Colores de las líneas subcausas */
+      .subline-personas {
+        background: #1a5fb4;
+      }
+      .subline-maquinas {
+        background: #c01c28;
+      }
+      .subline-entorno {
+        background: #26a269;
+      }
+      .subline-materiales {
+        background: #e5a50a;
+      }
+      .subline-metodos {
+        background: #813d9c;
+      }
+      .subline-mediciones {
+        background: #2b7c85;
       }
 
       /* Tabla de análisis */
@@ -166,12 +223,30 @@
       }
 
       .analysis-table th {
-        background: #4a6bdf;
-        color: white;
         padding: 15px;
         text-align: left;
         font-weight: 600;
         font-size: 14px;
+        color: white;
+      }
+
+      .th-personas {
+        background: #1a5fb4;
+      }
+      .th-maquinas {
+        background: #c01c28;
+      }
+      .th-entorno {
+        background: #26a269;
+      }
+      .th-materiales {
+        background: #e5a50a;
+      }
+      .th-metodos {
+        background: #813d9c;
+      }
+      .th-mediciones {
+        background: #2b7c85;
       }
 
       .analysis-table td {
@@ -183,26 +258,6 @@
 
       .analysis-table tr:nth-child(even) {
         background: #f8f9fa;
-      }
-
-      .category-name {
-        font-weight: 600;
-        color: #4a6bdf;
-      }
-
-      .critical-item {
-        font-weight: 600;
-        color: #ff4081;
-        background: #fff0f5;
-        padding: 2px 6px;
-        border-radius: 4px;
-      }
-
-      .relation-text {
-        font-size: 13px;
-        line-height: 1.5;
-        color: #555;
-        font-style: italic;
       }
 
       .legend {
@@ -240,9 +295,7 @@
           <div class="logo">4★</div>
           <div class="title-area">
             <h1 class="main-title">DIAGRAMA ISHIKAWA</h1>
-            <h2 class="subtitle">
-              ANÁLISIS DE CAUSAS - ERROR EN ASIGNACIÓN DE HABITACIONES
-            </h2>
+            <h2 class="subtitle">ANÁLISIS DE CAUSAS - SERVICIO DEFICIENTE</h2>
           </div>
           <div class="metadata">
             <p>ISHK-001</p>
@@ -259,255 +312,251 @@
 
             <!-- Problema principal -->
             <div class="problem">
-              🚫 ERROR EN ASIGNACIÓN<br />DE HABITACIONES
+              SERVICIO DEFICIENTE<br />(Hab. fumador / llaves erróneas)
             </div>
 
             <!-- CATEGORÍAS SUPERIORES -->
+
             <!-- PERSONAS -->
-            <div class="category cat-top pos-1">👥 Personas</div>
             <div
-              class="spine-line line-top"
-              style="top: 350px; left: 200px; width: 240px"></div>
+              class="spine-line line-top line-personas"
+              style="top: 350px; left: 230px; width: 220px"></div>
+            <div class="category cat-personas" style="top: 130px; left: 110px">
+              👥 Personas
+            </div>
 
             <!-- Subcausas Personas -->
-            <div class="subcause critical" style="top: 110px; left: 160px">
-              Inducción informal (acompañamiento)
+            <div
+              class="subcause border-personas"
+              style="top: 190px; left: 180px">
+              Inducción informal
             </div>
             <div
-              class="subcause-line"
+              class="subcause-line subline-personas"
               style="
-                top: 130px;
-                left: 225px;
+                top: 205px;
+                left: 180px;
                 width: 60px;
-                transform: rotate(75deg);
+                transform: rotate(30deg);
               "></div>
 
-            <div class="subcause" style="top: 180px; left: 240px">
-              Recepcionista sin tutor
+            <div
+              class="subcause border-personas"
+              style="top: 140px; left: 240px">
+              Sin tutor
             </div>
             <div
-              class="subcause-line"
+              class="subcause-line subline-personas"
               style="
-                top: 200px;
-                left: 280px;
-                width: 60px;
-                transform: rotate(65deg);
+                top: 155px;
+                left: 240px;
+                width: 50px;
+                transform: rotate(30deg);
               "></div>
 
-            <div class="subcause" style="top: 230px; left: 320px">
-              Falta supervisión
+            <div
+              class="subcause border-personas"
+              style="top: 90px; left: 300px">
+              Supervisión débil
             </div>
             <div
-              class="subcause-line"
+              class="subcause-line subline-personas"
               style="
-                top: 250px;
-                left: 340px;
-                width: 60px;
-                transform: rotate(55deg);
-              "></div>
-
-            <!-- MÉTODOS -->
-            <div class="category cat-top pos-2">📋 Métodos</div>
-            <div
-              class="spine-line line-top"
-              style="top: 350px; left: 500px; width: 240px"></div>
-
-            <!-- Subcausas Métodos -->
-            <div class="subcause" style="top: 110px; left: 460px">
-              POE check-in inexistente
-            </div>
-            <div
-              class="subcause-line"
-              style="
-                top: 130px;
-                left: 525px;
-                width: 60px;
-                transform: rotate(75deg);
-              "></div>
-
-            <div class="subcause critical" style="top: 180px; left: 540px">
-              Sin checklist VIP / preferencias
-            </div>
-            <div
-              class="subcause-line"
-              style="
-                top: 200px;
-                left: 580px;
-                width: 60px;
-                transform: rotate(65deg);
-              "></div>
-
-            <div class="subcause" style="top: 230px; left: 620px">
-              Sin doble-chequeo
-            </div>
-            <div
-              class="subcause-line"
-              style="
-                top: 250px;
-                left: 640px;
-                width: 60px;
-                transform: rotate(55deg);
+                top: 105px;
+                left: 300px;
+                width: 50px;
+                transform: rotate(30deg);
               "></div>
 
             <!-- MÁQUINAS -->
-            <div class="category cat-top pos-3">💻 Máquinas</div>
             <div
-              class="spine-line line-top"
-              style="top: 350px; left: 800px; width: 240px"></div>
+              class="spine-line line-top line-maquinas"
+              style="top: 350px; left: 530px; width: 220px"></div>
+            <div class="category cat-maquinas" style="top: 130px; left: 410px">
+              💻 Máquinas
+            </div>
 
             <!-- Subcausas Máquinas -->
-            <div class="subcause critical" style="top: 110px; left: 760px">
+            <div
+              class="subcause border-maquinas"
+              style="top: 190px; left: 480px">
               PMS sin alerta VIP
             </div>
             <div
-              class="subcause-line"
+              class="subcause-line subline-maquinas"
               style="
-                top: 130px;
-                left: 825px;
+                top: 205px;
+                left: 480px;
                 width: 60px;
-                transform: rotate(75deg);
+                transform: rotate(30deg);
               "></div>
 
-            <div class="subcause" style="top: 180px; left: 840px">
-              Interfaz confusa
-            </div>
             <div
-              class="subcause-line"
-              style="
-                top: 200px;
-                left: 880px;
-                width: 60px;
-                transform: rotate(65deg);
-              "></div>
-
-            <div class="subcause" style="top: 230px; left: 920px">
+              class="subcause border-maquinas"
+              style="top: 140px; left: 540px">
               Key encoder sin validación
             </div>
             <div
-              class="subcause-line"
+              class="subcause-line subline-maquinas"
               style="
-                top: 250px;
-                left: 940px;
-                width: 60px;
-                transform: rotate(55deg);
-              "></div>
-
-            <!-- CATEGORÍAS INFERIORES -->
-            <!-- MATERIALES -->
-            <div class="category cat-bottom pos-1">🏷️ Materiales</div>
-            <div
-              class="spine-line line-bottom"
-              style="top: 350px; left: 200px; width: 240px"></div>
-
-            <!-- Subcausas Materiales -->
-            <div class="subcause" style="top: 480px; left: 160px">
-              Tarjetas sin código color
-            </div>
-            <div
-              class="subcause-line"
-              style="
-                top: 470px;
-                left: 225px;
-                width: 60px;
-                transform: rotate(-75deg);
-              "></div>
-
-            <div class="subcause critical" style="top: 540px; left: 240px">
-              Señalética confusa áreas fumador
-            </div>
-            <div
-              class="subcause-line"
-              style="
-                top: 530px;
-                left: 280px;
-                width: 60px;
-                transform: rotate(-65deg);
-              "></div>
-
-            <!-- MEDICIONES -->
-            <div class="category cat-bottom pos-2">📊 Mediciones</div>
-            <div
-              class="spine-line line-bottom"
-              style="top: 350px; left: 500px; width: 240px"></div>
-
-            <!-- Subcausas Mediciones -->
-            <div class="subcause critical" style="top: 480px; left: 460px">
-              No se registra KPI de errores
-            </div>
-            <div
-              class="subcause-line"
-              style="
-                top: 470px;
-                left: 525px;
-                width: 60px;
-                transform: rotate(-75deg);
-              "></div>
-
-            <div class="subcause" style="top: 540px; left: 540px">
-              Reclamos solo contados
-            </div>
-            <div
-              class="subcause-line"
-              style="
-                top: 530px;
-                left: 580px;
-                width: 60px;
-                transform: rotate(-65deg);
-              "></div>
-
-            <div class="subcause" style="top: 590px; left: 620px">
-              Sin seguimiento a VIPs
-            </div>
-            <div
-              class="subcause-line"
-              style="
-                top: 580px;
-                left: 640px;
-                width: 60px;
-                transform: rotate(-55deg);
+                top: 155px;
+                left: 540px;
+                width: 50px;
+                transform: rotate(30deg);
               "></div>
 
             <!-- ENTORNO -->
-            <div class="category cat-bottom pos-3">🌍 Entorno</div>
             <div
-              class="spine-line line-bottom"
-              style="top: 350px; left: 800px; width: 240px"></div>
+              class="spine-line line-top line-entorno"
+              style="top: 350px; left: 830px; width: 220px"></div>
+            <div class="category cat-entorno" style="top: 130px; left: 710px">
+              🌍 Entorno
+            </div>
 
             <!-- Subcausas Entorno -->
-            <div class="subcause" style="top: 480px; left: 760px">
-              Hotel 100% ocupación
+            <div
+              class="subcause border-entorno"
+              style="top: 190px; left: 780px">
+              Hotel lleno
             </div>
             <div
-              class="subcause-line"
+              class="subcause-line subline-entorno"
               style="
-                top: 470px;
-                left: 825px;
+                top: 205px;
+                left: 780px;
                 width: 60px;
-                transform: rotate(-75deg);
+                transform: rotate(30deg);
               "></div>
 
-            <div class="subcause critical" style="top: 540px; left: 840px">
-              Política overbooking no definida
+            <div
+              class="subcause border-entorno"
+              style="top: 140px; left: 840px">
+              Sin política de upgrade
             </div>
             <div
-              class="subcause-line"
+              class="subcause-line subline-entorno"
               style="
-                top: 530px;
-                left: 880px;
-                width: 60px;
-                transform: rotate(-65deg);
+                top: 155px;
+                left: 840px;
+                width: 50px;
+                transform: rotate(30deg);
               "></div>
 
-            <div class="subcause" style="top: 590px; left: 920px">
-              Cultura reactiva
+            <!-- CATEGORÍAS INFERIORES -->
+
+            <!-- MATERIALES -->
+            <div
+              class="spine-line line-bottom line-materiales"
+              style="top: 350px; left: 230px; width: 220px"></div>
+            <div
+              class="category cat-materiales"
+              style="top: 570px; left: 110px">
+              🏷️ Materiales
+            </div>
+
+            <!-- Subcausas Materiales -->
+            <div
+              class="subcause border-materiales"
+              style="top: 510px; left: 180px">
+              Tarjetas similares
             </div>
             <div
-              class="subcause-line"
+              class="subcause-line subline-materiales"
               style="
-                top: 580px;
-                left: 940px;
+                top: 507px;
+                left: 180px;
                 width: 60px;
-                transform: rotate(-55deg);
+                transform: rotate(-30deg);
+              "></div>
+
+            <div
+              class="subcause border-materiales"
+              style="top: 560px; left: 240px">
+              Señalética confusa
+            </div>
+            <div
+              class="subcause-line subline-materiales"
+              style="
+                top: 557px;
+                left: 240px;
+                width: 50px;
+                transform: rotate(-30deg);
+              "></div>
+
+            <!-- MÉTODOS -->
+            <div
+              class="spine-line line-bottom line-metodos"
+              style="top: 350px; left: 530px; width: 220px"></div>
+            <div class="category cat-metodos" style="top: 570px; left: 410px">
+              📋 Métodos
+            </div>
+
+            <!-- Subcausas Métodos -->
+            <div
+              class="subcause border-metodos"
+              style="top: 510px; left: 480px">
+              No POE check-in
+            </div>
+            <div
+              class="subcause-line subline-metodos"
+              style="
+                top: 507px;
+                left: 480px;
+                width: 60px;
+                transform: rotate(-30deg);
+              "></div>
+
+            <div
+              class="subcause border-metodos"
+              style="top: 560px; left: 540px">
+              Sin checklist VIP
+            </div>
+            <div
+              class="subcause-line subline-metodos"
+              style="
+                top: 557px;
+                left: 540px;
+                width: 50px;
+                transform: rotate(-30deg);
+              "></div>
+
+            <!-- MEDICIONES -->
+            <div
+              class="spine-line line-bottom line-mediciones"
+              style="top: 350px; left: 830px; width: 220px"></div>
+            <div
+              class="category cat-mediciones"
+              style="top: 570px; left: 710px">
+              📊 Mediciones
+            </div>
+
+            <!-- Subcausas Mediciones -->
+            <div
+              class="subcause border-mediciones"
+              style="top: 510px; left: 780px">
+              Sin KPI errores
+            </div>
+            <div
+              class="subcause-line subline-mediciones"
+              style="
+                top: 507px;
+                left: 780px;
+                width: 60px;
+                transform: rotate(-30deg);
+              "></div>
+
+            <div
+              class="subcause border-mediciones"
+              style="top: 560px; left: 840px">
+              Reclamos sin análisis
+            </div>
+            <div
+              class="subcause-line subline-mediciones"
+              style="
+                top: 557px;
+                left: 840px;
+                width: 50px;
+                transform: rotate(-30deg);
               "></div>
           </div>
         </div>
@@ -517,100 +566,64 @@
           <table>
             <thead>
               <tr>
-                <th style="width: 15%">🎯 Categoría</th>
-                <th style="width: 45%">🔍 Causas Identificadas</th>
-                <th style="width: 40%">🔗 Impacto en el Problema</th>
+                <th class="th-personas">👥 PERSONAS</th>
+                <th class="th-maquinas">💻 MÁQUINAS</th>
+                <th class="th-entorno">🌍 ENTORNO</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td class="category-name">👥 Personas</td>
                 <td>
-                  • <span class="critical-item">Inducción informal</span> (solo
-                  "acompañamiento de un par")<br />
-                  • Recepcionista en su primer día sin tutor<br />
-                  • Falta de supervisión en turno
+                  • <strong>Inducción informal</strong>: Personal nuevo realiza
+                  inducción sin estructura formal<br />
+                  • <strong>Sin tutor</strong>: Recepcionistas nuevos trabajan
+                  sin acompañamiento<br />
+                  • <strong>Supervisión débil</strong>: Falta supervisión de
+                  tareas críticas
                 </td>
-                <td class="relation-text">
-                  La falta de un programa formal provoca que el personal nuevo
-                  ignore requisitos históricos de clientes frecuentes y sus
-                  preferencias.
+                <td>
+                  • <strong>PMS sin alerta VIP</strong>: El sistema no destaca
+                  preferencias especiales<br />
+                  • <strong>Key encoder sin validación</strong>: Las tarjetas se
+                  codifican sin validar la habitación asignada
+                </td>
+                <td>
+                  • <strong>Hotel lleno</strong>: Alta ocupación impide
+                  reasignaciones<br />
+                  • <strong>Sin política de upgrade</strong>: No existe
+                  protocolo para compensar errores
                 </td>
               </tr>
+            </tbody>
+          </table>
+
+          <table style="margin-top: 20px">
+            <thead>
               <tr>
-                <td class="category-name">📋 Métodos</td>
-                <td>
-                  • POE de reserva/check-in inexistente<br />
-                  •
-                  <span class="critical-item"
-                    >Sin checklist VIP / preferencias</span
-                  >
-                  (no fumador)<br />
-                  • Ausencia de doble-chequeo antes de entregar llave
-                </td>
-                <td class="relation-text">
-                  Sin un doble-chequeo ni señal visual el sistema permite
-                  confirmar una habitación inadecuada sin advertir del error.
-                </td>
+                <th class="th-materiales">🏷️ MATERIALES</th>
+                <th class="th-metodos">📋 MÉTODOS</th>
+                <th class="th-mediciones">📊 MEDICIONES</th>
               </tr>
+            </thead>
+            <tbody>
               <tr>
-                <td class="category-name">💻 Máquinas</td>
                 <td>
-                  •
-                  <span class="critical-item"
-                    >PMS sin alerta de huésped VIP</span
-                  ><br />
-                  • Interfaz confusa para seleccionar tipo de habitación<br />
-                  • Key encoder permite codificar tarjeta sin validación
+                  • <strong>Tarjetas similares</strong>: Llaves sin códigos de
+                  color por tipo de habitación<br />
+                  • <strong>Señalética confusa</strong>: No hay diferenciación
+                  clara entre zonas fumador/no fumador
                 </td>
-                <td class="relation-text">
-                  Los sistemas no proporcionan alertas automáticas para
-                  preferencias especiales de huéspedes VIP y facilitan la
-                  confusión.
-                </td>
-              </tr>
-              <tr>
-                <td class="category-name">🏷️ Materiales</td>
                 <td>
-                  • Tarjetas llave genéricas sin código de color<br />
-                  •
-                  <span class="critical-item">Señalética poco clara</span> entre
-                  alas fumador/no fumador
+                  • <strong>No POE check-in</strong>: Falta procedimiento
+                  operativo estándar para check-in<br />
+                  • <strong>Sin checklist VIP</strong>: No hay verificación
+                  sistemática de preferencias
                 </td>
-                <td class="relation-text">
-                  La falta de diferenciación visual facilita errores en la
-                  asignación de habitaciones y aumenta confusión durante el
-                  check-in.
-                </td>
-              </tr>
-              <tr>
-                <td class="category-name">📊 Mediciones</td>
                 <td>
-                  •
-                  <span class="critical-item"
-                    >No se registra KPI de errores</span
-                  ><br />
-                  • Reclamos solo se cuentan, no se analizan<br />
-                  • Sin seguimiento a satisfacción VIP
-                </td>
-                <td class="relation-text">
-                  Al no medir la tasa de fallos, la dirección desconoce la
-                  magnitud del problema y no prioriza la solución.
-                </td>
-              </tr>
-              <tr>
-                <td class="category-name">🌍 Entorno</td>
-                <td>
-                  • Hotel al 100% de ocupación → imposible reubicar<br />
-                  •
-                  <span class="critical-item"
-                    >Política de overbooking/fumador no definida</span
-                  ><br />
-                  • Cultura reactiva (no hay protocolo de solución)
-                </td>
-                <td class="relation-text">
-                  El hotel no prevé una reserva de habitaciones "buffer" ni
-                  protocolo de upgrade externo para compensar errores.
+                  • <strong>Sin KPI errores</strong>: No se registran ni
+                  analizan los errores en check-in<br />
+                  • <strong>Reclamos sin análisis</strong>: Sólo se contabilizan
+                  sin estudiar causas raíz
                 </td>
               </tr>
             </tbody>
@@ -619,28 +632,40 @@
 
         <!-- Leyenda -->
         <div class="legend">
-          <h3 style="width: 100%; margin-top: 0; color: #4a6bdf">
+          <h3 style="width: 100%; margin-top: 0; color: #2d3748">
             📋 Leyenda:
           </h3>
           <div class="legend-item">
-            <div class="legend-color" style="background: #4a6bdf"></div>
+            <div class="legend-color" style="background: #2d3748"></div>
             <span>Espina central (problema principal)</span>
           </div>
           <div class="legend-item">
-            <div class="legend-color" style="background: #f06292"></div>
-            <span>Categorías principales</span>
+            <div class="legend-color" style="background: #c01c28"></div>
+            <span>Problema principal</span>
           </div>
           <div class="legend-item">
-            <div
-              class="legend-color"
-              style="background: white; border: 1px solid #f06292"></div>
-            <span>Causas secundarias</span>
+            <div class="legend-color" style="background: #1a5fb4"></div>
+            <span>Personas</span>
           </div>
           <div class="legend-item">
-            <div
-              class="legend-color"
-              style="background: #fff0f5; border: 2px solid #ff4081"></div>
-            <span><strong>Causas críticas</strong></span>
+            <div class="legend-color" style="background: #c01c28"></div>
+            <span>Máquinas</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background: #26a269"></div>
+            <span>Entorno</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background: #e5a50a"></div>
+            <span>Materiales</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background: #813d9c"></div>
+            <span>Métodos</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background: #2b7c85"></div>
+            <span>Mediciones</span>
           </div>
         </div>
 
